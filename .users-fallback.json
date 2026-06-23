@@ -1,0 +1,77 @@
+[
+  {
+    "pk": "USER",
+    "sk": "USER#0f0af0d0-e543-4ecc-a431-cca4aa1b8dc1",
+    "id": "0f0af0d0-e543-4ecc-a431-cca4aa1b8dc1",
+    "name": "loki",
+    "email": "logu978629@gmail.com",
+    "password": "$2a$12$N5ZpFj8J9xXCm1ZosSsaXOh6KoSGsC0JftSaD9zi8HGuEvPU3tZdO",
+    "role": "USER",
+    "addresses": [],
+    "createdAt": "2026-05-18T06:56:16.379Z",
+    "resetOtp": null,
+    "resetOtpExpiry": null,
+    "lastLoginAt": "2026-06-15T08:44:00.510Z"
+  },
+  {
+    "pk": "USER",
+    "sk": "USER#9a469ccb-8036-44bb-a207-825bc7ad6d20",
+    "id": "9a469ccb-8036-44bb-a207-825bc7ad6d20",
+    "name": "Dinga",
+    "email": "logesh978629@gmail.com",
+    "password": "$2a$12$82KNGzuzVJkwrCVfWjEreu2btWMaq.F6fQ29vE7Qh69bWlxiaI41W",
+    "role": "USER",
+    "addresses": [],
+    "createdAt": "2026-05-18T11:08:29.020Z",
+    "lastLoginAt": "2026-06-19T07:57:44.407Z"
+  },
+  {
+    "id": "638dba4d-fdd4-4e11-ab80-06801e2be5c5",
+    "name": "Admin",
+    "email": "grgroups2026@gmail.com",
+    "password": "$2a$12$3rcCvSmaOsADj56dvyVGgeOaZ85oiFh5FbSFByq8p33zvkcvNONJ2",
+    "role": "admin",
+    "addresses": [],
+    "createdAt": "2026-06-10T07:29:29.838Z",
+    "lastLoginAt": "2026-06-23T05:48:50.092Z"
+  },
+  {
+    "id": "9af66758-843f-4e60-a00a-62c47b0c0a70",
+    "name": "Admin User",
+    "email": "admin@grgroups.com",
+    "password": "$2a$12$eXlBQMeGleRrazQeBusZtuCjzYnChol8o.Um.c1OnQ5H8LVj7TT72",
+    "role": "admin",
+    "addresses": [],
+    "createdAt": "2026-06-10T07:53:39.783Z",
+    "lastLoginAt": "2026-06-10T08:11:10.377Z"
+  },
+  {
+    "id": "a15fa8a9-72de-4707-9210-4aa7e872ab5c",
+    "name": "Admin User",
+    "email": "admin2@grgroups.com",
+    "password": "$2a$12$KayI22/DlwFucVrRYN.CWO4mqiwx.pBK2uoYdaX99K88gkosk7BXa",
+    "role": "USER",
+    "addresses": [],
+    "createdAt": "2026-06-10T07:55:41.577Z",
+    "blocked": true
+  },
+  {
+    "id": "2713d19d-5fbf-4516-86a4-810f6fa1ceaf",
+    "name": "Sample Login",
+    "email": "samplelogin@gmail.com",
+    "password": "$2a$12$2iG58SKzrkYVTltJo42ASOe3I05h/KsWLioAA9dz4LhyG9uLpQgIK",
+    "role": "USER",
+    "addresses": [],
+    "createdAt": "2026-06-11T12:18:46.434Z"
+  },
+  {
+    "id": "13109781-9d56-4bf4-b0e5-5dfd8fbb51f8",
+    "name": "Test User",
+    "email": "testuser@example.com",
+    "password": "$2a$12$b8wb1tw0r6eX2O0Z1AGpmuMO4pRPaX1zJqSksnNyupwlJW8fWpQqu",
+    "role": "USER",
+    "addresses": [],
+    "createdAt": "2026-06-12T08:25:58.169Z",
+    "lastLoginAt": "2026-06-18T07:28:32.608Z"
+  }
+]

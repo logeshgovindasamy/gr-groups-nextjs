@@ -1,0 +1,146 @@
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+@layer base {
+  body {
+    font-family: system-ui, -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Helvetica, Arial, sans-serif;
+    @apply bg-background text-textLight antialiased;
+    line-height: 1.5;
+  }
+
+  h1, h2, h3, h4, h5, h6 {
+    font-family: system-ui, -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Helvetica, Arial, sans-serif;
+    @apply text-primary tracking-tight font-medium;
+  }
+
+  ::selection {
+    @apply bg-blue-100 text-gray-900;
+  }
+}
+
+@layer components {
+  /* Modern Shopify Card */
+  .glass-panel {
+    @apply bg-surface border border-[#e1e3e5] rounded-xl shadow-sm p-6;
+    box-shadow: 0px 1px 0px rgba(0, 0, 0, 0.05);
+  }
+
+  /* Shopify Primary Button (Slate Black or Signature Green) */
+  .btn-primary {
+    @apply bg-accent text-white px-4 py-2.5 rounded-lg font-semibold text-sm
+           transition-all duration-200 hover:bg-[#006e52] hover:shadow-sm
+           active:scale-[0.98] disabled:opacity-50 disabled:cursor-not-allowed;
+  }
+
+  /* Shopify Secondary / Outline Button */
+  .btn-outline {
+    @apply border border-[#babfc3] bg-white text-primary px-4 py-2.5 rounded-lg font-semibold text-sm
+           transition-all duration-200 hover:bg-[#f6f6f7] hover:border-[#8c9196]
+           active:scale-[0.98];
+  }
+
+  /* Shopify Danger Button */
+  .btn-danger {
+    @apply bg-red-600 text-white px-4 py-2.5 rounded-lg font-semibold text-sm
+           transition-all duration-200 hover:bg-red-700
+           active:scale-[0.98];
+  }
+
+  /* Shopify Polaris Form Input */
+  .input-field {
+    @apply w-full bg-white border border-[#babfc3] rounded-lg px-3 py-2 text-sm text-primary
+           placeholder:text-gray-400
+           focus:outline-none focus:border-accent focus:ring-2 focus:ring-accent/15
+           transition-all duration-150;
+  }
+
+  /* Clean Product Card */
+  .product-card {
+    @apply bg-surface border border-[#e1e3e5] rounded-xl p-4 flex flex-col gap-4 cursor-pointer
+           transition-all duration-300 hover:shadow-md hover:border-[#8c9196];
+  }
+
+  /* Shopify Polaris Style Badges */
+  .badge {
+    @apply px-2.5 py-1 rounded-full text-xs font-semibold tracking-normal capitalize inline-flex items-center gap-1.5;
+  }
+
+  .badge-success {
+    @apply badge bg-[#e2f1e5] text-[#008060];
+  }
+
+  .badge-warning {
+    @apply badge bg-[#fff4e5] text-[#b98900];
+  }
+
+  .badge-info {
+    @apply badge bg-[#e4f0fc] text-[#0060c9];
+  }
+
+  .badge-danger {
+    @apply badge bg-[#fff0f0] text-[#d82c0d];
+  }
+}
+
+/* Custom Scrollbar */
+::-webkit-scrollbar {
+  width: 8px;
+}
+::-webkit-scrollbar-track {
+  background: #f9fafb;
+}
+::-webkit-scrollbar-thumb {
+  background: #d1d5db;
+  border-radius: 4px;
+}
+::-webkit-scrollbar-thumb:hover {
+  background: #9ca3af;
+}
+
+/* Print styles for receipt */
+@media print {
+  body * {
+    visibility: hidden;
+  }
+  .print-receipt,
+  .print-receipt * {
+    visibility: visible;
+  }
+  .print-receipt {
+    position: absolute;
+    left: 0;
+    top: 0;
+    width: 100%;
+  }
+  .no-print {
+    display: none !important;
+  }
+}
+
+/* Skeleton loading animation */
+.skeleton {
+  background: linear-gradient(
+    90deg,
+    rgba(0, 0, 0, 0.03) 0%,
+    rgba(0, 0, 0, 0.06) 50%,
+    rgba(0, 0, 0, 0.03) 100%
+  );
+  background-size: 200% 100%;
+  animation: shimmer 1.5s ease-in-out infinite;
+}
+
+@keyframes shimmer {
+  0% {
+    background-position: 200% 0;
+  }
+  100% {
+    background-position: -200% 0;
+  }
+}
+
+/* Glow effect for focused elements */
+.glow-border {
+  box-shadow: 0 0 10px rgba(37, 99, 235, 0.1);
+  border-color: rgba(37, 99, 235, 0.2);
+}

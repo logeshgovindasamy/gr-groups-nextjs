@@ -1,0 +1,59 @@
+{
+  "story": {
+    "heroTitle": "Redefining Luxury for the Modern Era",
+    "heroSubtitle": "Our Story",
+    "heroDescription": "GR Groups isn't just an e-commerce platform—it's a movement. We believe luxury should be accessible, authentic, and ahead of its time. Every product in our catalog is handpicked to meet the highest standards of quality and design.",
+    "missionTitle": "Our Mission",
+    "missionDescription": "To bridge the gap between high fashion and everyday style. We partner directly with designers and artisans worldwide to bring you pieces that tell a story—each item crafted with precision, purpose, and passion.",
+    "stats": [
+      {
+        "icon": "Users",
+        "value": "50K+",
+        "label": "Happy Customers"
+      },
+      {
+        "icon": "Globe",
+        "value": "45+",
+        "label": "Countries Shipped"
+      },
+      {
+        "icon": "Award",
+        "value": "200+",
+        "label": "Premium Brands"
+      },
+      {
+        "icon": "Heart",
+        "value": "99%",
+        "label": "Satisfaction Rate"
+      }
+    ],
+    "timeline": [
+      {
+        "title": "The Beginning",
+        "year": "2020",
+        "desc": "GR Groups was born from a passion for luxury fashion, launching our first curated collection of streetwear and accessories."
+      },
+      {
+        "title": "Going Global",
+        "year": "2021",
+        "desc": "We expanded to 20+ countries, partnering with exclusive artisan brands from Italy, Japan, and Scandinavia."
+      },
+      {
+        "title": "Tech Innovation",
+        "year": "2022",
+        "desc": "Launched our AI-powered styling recommendations and augmented reality try-on features."
+      },
+      {
+        "title": "Community First",
+        "year": "2023",
+        "desc": "Introduced our members-only Elite program, offering early access drops and personalized experiences."
+      },
+      {
+        "title": "Sustainability",
+        "year": "2024",
+        "desc": "Committed to carbon-neutral shipping and partnered with eco-conscious brands worldwide."
+      }
+    ],
+    "updatedAt": "2026-06-18T07:37:26.936Z"
+  }
+}
