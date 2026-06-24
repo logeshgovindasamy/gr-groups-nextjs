@@ -34,6 +34,7 @@ const Navbar = () => {
     { code: 'en', label: 'English', flag: '🇬🇧' },
     { code: 'ta', label: 'Tamil', flag: '🇮🇳' },
     { code: 'hi', label: 'Hindi', flag: '🇮🇳' },
+    { code: 'sv', label: 'Swedish', flag: '🇸🇪' },
     { code: 'no', label: 'Norwegian', flag: '🇳🇴' }
   ];
 
@@ -42,7 +43,7 @@ const Navbar = () => {
   const handleLanguageChange = (code) => {
     setLocale(code);
     setLangOpen(false);
-
+    
     const params = new URLSearchParams(searchParams.toString());
     params.set('lang', code);
     router.push(`${pathname}?${params.toString()}`);
@@ -258,7 +259,7 @@ const Navbar = () => {
               <span className="text-[10px]">{currentLang.flag}</span>
               <ChevronDown size={12} className={`transition-transform duration-300 ${langOpen ? 'rotate-180' : ''}`} />
             </button>
-
+            
             <AnimatePresence>
               {langOpen && (
                 <motion.div
@@ -271,10 +272,11 @@ const Navbar = () => {
                     <button
                       key={lang.code}
                       onClick={() => handleLanguageChange(lang.code)}
-                      className={`w-full text-left px-3 py-2 rounded-lg text-xs font-semibold flex items-center justify-between transition-colors ${locale === lang.code
-                        ? 'bg-primary text-white'
-                        : 'text-textMuted hover:bg-white/5 hover:text-white'
-                        }`}
+                      className={`w-full text-left px-3 py-2 rounded-lg text-xs font-semibold flex items-center justify-between transition-colors ${
+                        locale === lang.code
+                          ? 'bg-primary text-white'
+                          : 'text-textMuted hover:bg-white/5 hover:text-white'
+                      }`}
                     >
                       <span className="flex items-center gap-2">
                         <span>{lang.flag}</span>
@@ -379,10 +381,11 @@ const Navbar = () => {
                     handleLanguageChange(lang.code);
                     setMobileMenuOpen(false);
                   }}
-                  className={`flex flex-col items-center gap-1 p-2 rounded-lg border transition-all ${locale === lang.code
-                    ? 'border-accent/40 bg-primary/10 scale-105'
-                    : 'border-transparent bg-transparent opacity-60'
-                    }`}
+                  className={`flex flex-col items-center gap-1 p-2 rounded-lg border transition-all ${
+                    locale === lang.code
+                      ? 'border-accent/40 bg-primary/10 scale-105'
+                      : 'border-transparent bg-transparent opacity-60'
+                  }`}
                 >
                   <span className="text-xl">{lang.flag}</span>
                   <span className="text-[10px] uppercase font-bold text-textMuted">{lang.code}</span>

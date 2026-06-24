@@ -32,7 +32,7 @@ const wooCommerceApi = new WooCommerceRestApi({
   consumerSecret: process.env.WC_CONSUMER_SECRET || process.env.WOOCOMMERCE_CONSUMER_SECRET,
   version: "wc/v3",
   axiosConfig: {
-    timeout: 30000, // 30 seconds — local WordPress/PHP can be slow
+    timeout: 30000, // 30 seconds — local WordPress/PHP is too salow
     headers: {
       "Content-Type": "application/json",
       "Connection": "keep-alive"

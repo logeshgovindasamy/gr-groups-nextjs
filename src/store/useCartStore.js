@@ -7,11 +7,11 @@
 import { create } from 'zustand';
 import { persist } from 'zustand/middleware';
 
-const calculatePrices = (cartItems, discountPrice = 0) => {
+const calculatePrices = (cartItems) => {
   const itemsPrice = cartItems.reduce((acc, item) => acc + item.price * item.qty, 0);
   const taxPrice = Number((0.15 * itemsPrice).toFixed(2));
   const shippingPrice = itemsPrice > 100 ? 0 : 10;
-  const totalPrice = Math.max(0, Number((itemsPrice + taxPrice + shippingPrice - discountPrice).toFixed(2)));
+  const totalPrice = Number((itemsPrice + taxPrice + shippingPrice).toFixed(2));
   return { itemsPrice, taxPrice, shippingPrice, totalPrice };
 };
 
@@ -27,7 +27,7 @@ const useCartStore = create(
       totalPrice: 0,
       discountPrice: 0,
       appliedCoupons: [],
-      cartToken: '',
+      cartToken: null,
 
       // Add item to cart
       addToCart: (item) => {
@@ -47,8 +47,9 @@ const useCartStore = create(
           updatedItems = [...cartItems, { ...item, qty: item.qty || 1 }];
         }
 
-        const prices = calculatePrices(updatedItems, discountPrice);
-        set({ cartItems: updatedItems, ...prices });
+        const prices = calculatePrices(updatedItems);
+        const totalPrice = Number(Math.max(0, prices.totalPrice - discountPrice).toFixed(2));
+        set({ cartItems: updatedItems, ...prices, totalPrice });
       },
 
       // Update item quantity
@@ -59,8 +60,9 @@ const useCartStore = create(
             ? { ...x, qty: Math.max(1, qty) }
             : x
         );
-        const prices = calculatePrices(updatedItems, discountPrice);
-        set({ cartItems: updatedItems, ...prices });
+        const prices = calculatePrices(updatedItems);
+        const totalPrice = Number(Math.max(0, prices.totalPrice - discountPrice).toFixed(2));
+        set({ cartItems: updatedItems, ...prices, totalPrice });
       },
 
       // Remove item from cart
@@ -69,8 +71,36 @@ const useCartStore = create(
         const updatedItems = cartItems.filter(
           (x) => !(x.id === id && x.variationId === variationId)
         );
-        const prices = calculatePrices(updatedItems, discountPrice);
-        set({ cartItems: updatedItems, ...prices });
+        const prices = calculatePrices(updatedItems);
+        const totalPrice = Number(Math.max(0, prices.totalPrice - discountPrice).toFixed(2));
+        set({ cartItems: updatedItems, ...prices, totalPrice });
+      },
+
+      // Apply Coupon discount (additive layer)
+      applyDiscount: (amount, coupon, token) => {
+        set((state) => {
+          const discount = Number(amount.toFixed(2));
+          const basePrices = calculatePrices(state.cartItems);
+          const totalPrice = Number(Math.max(0, basePrices.totalPrice - discount).toFixed(2));
+          return {
+            discountPrice: discount,
+            appliedCoupons: [coupon],
+            totalPrice,
+            cartToken: token || state.cartToken
+          };
+        });
+      },
+
+      // Remove Coupon discount
+      removeDiscount: () => {
+        set((state) => {
+          const basePrices = calculatePrices(state.cartItems);
+          return {
+            discountPrice: 0,
+            appliedCoupons: [],
+            totalPrice: basePrices.totalPrice
+          };
+        });
       },
 
       // Set shipping address
@@ -83,29 +113,6 @@ const useCartStore = create(
         set({ paymentMethod: method });
       },
 
-      // Apply discount
-      applyDiscount: (discountPrice, couponCode, cartToken) => {
-        const { cartItems } = get();
-        const prices = calculatePrices(cartItems, discountPrice);
-        set({
-          discountPrice,
-          appliedCoupons: couponCode ? [couponCode] : [],
-          cartToken,
-          ...prices,
-        });
-      },
-
-      // Remove discount
-      removeDiscount: () => {
-        const { cartItems } = get();
-        const prices = calculatePrices(cartItems, 0);
-        set({
-          discountPrice: 0,
-          appliedCoupons: [],
-          ...prices,
-        });
-      },
-
       // Clear entire cart
       clearCart: () => {
         set({
@@ -116,7 +123,7 @@ const useCartStore = create(
           totalPrice: 0,
           discountPrice: 0,
           appliedCoupons: [],
-          cartToken: '',
+          cartToken: null,
         });
       },
     }),
@@ -125,6 +132,5 @@ const useCartStore = create(
     }
   )
 );
-
 
 export default useCartStore;

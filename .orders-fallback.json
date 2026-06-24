@@ -1347,5 +1347,41 @@
     "deliveredAt": null,
     "createdAt": "2026-06-24T05:09:59",
     "status": "processing"
+  },
+  {
+    "id": "393",
+    "userId": "13109781-9d56-4bf4-b0e5-5dfd8fbb51f8",
+    "user": "13109781-9d56-4bf4-b0e5-5dfd8fbb51f8",
+    "orderItems": [
+      {
+        "id": "245",
+        "productId": "245",
+        "name": "Neon Stealth Hoodie V1",
+        "qty": 1,
+        "price": 134.1,
+        "image": ""
+      }
+    ],
+    "shippingAddress": {
+      "address": "123 Luxury Lane",
+      "city": "Metropolis",
+      "postalCode": "10001",
+      "country": "USA"
+    },
+    "paymentMethod": "Credit Card",
+    "paymentResult": "success",
+    "taxPrice": 0,
+    "shippingPrice": 0,
+    "totalPrice": 134.1,
+    "discountPrice": 14.9,
+    "appliedCoupons": [
+      "987654321"
+    ],
+    "isPaid": true,
+    "paidAt": "2026-06-24T05:20:57",
+    "isDelivered": false,
+    "deliveredAt": null,
+    "createdAt": "2026-06-24T05:20:57",
+    "status": "processing"
   }
 ]
