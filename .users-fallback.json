@@ -23,7 +23,7 @@
     "role": "USER",
     "addresses": [],
     "createdAt": "2026-05-18T11:08:29.020Z",
-    "lastLoginAt": "2026-06-19T07:57:44.407Z"
+    "lastLoginAt": "2026-06-23T12:27:51.449Z"
   },
   {
     "id": "638dba4d-fdd4-4e11-ab80-06801e2be5c5",
@@ -72,6 +72,6 @@
     "role": "USER",
     "addresses": [],
     "createdAt": "2026-06-12T08:25:58.169Z",
-    "lastLoginAt": "2026-06-18T07:28:32.608Z"
+    "lastLoginAt": "2026-06-24T05:17:33.935Z"
   }
 ]
