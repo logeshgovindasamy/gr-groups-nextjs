@@ -9,7 +9,7 @@ import toast from "react-hot-toast";
 export default function EditProductPage({ params }) {
   const router = useRouter();
   const { id } = use(params);
-  
+
   const [loading, setLoading] = useState(true);
   const [saving, setSaving] = useState(false);
   const [imageFile, setImageFile] = useState(null);
@@ -28,7 +28,7 @@ export default function EditProductPage({ params }) {
       try {
         const res = await fetch(`/api/products/${id}`);
         const result = await res.json();
-        
+
         if (res.ok) {
           const product = result.data || result;
           const imgUrl = product.images && product.images.length > 0 ? product.images[0] : "";
@@ -37,7 +37,7 @@ export default function EditProductPage({ params }) {
             description: product.description || "",
             price: product.price || "",
             category: product.category || "",
-            stock: product.stock || "0",
+            stock: product.stock || "",
             image: imgUrl,
           });
           setImagePreview(imgUrl);
@@ -51,7 +51,7 @@ export default function EditProductPage({ params }) {
         setLoading(false);
       }
     };
-    
+
     fetchProduct();
   }, [id, router]);
 
@@ -66,16 +66,16 @@ export default function EditProductPage({ params }) {
 
     try {
       let imageUrl = formData.image;
-      
+
       if (imageFile) {
         const uploadData = new FormData();
         uploadData.append("file", imageFile);
-        
+
         const uploadRes = await fetch("/api/upload", {
           method: "POST",
           body: uploadData,
         });
-        
+
         if (uploadRes.ok) {
           const uploadResult = await uploadRes.json();
           imageUrl = uploadResult.data?.url || uploadResult.url || "";
@@ -90,9 +90,9 @@ export default function EditProductPage({ params }) {
         .split('; ')
         .find(row => row.startsWith('auth-token='))
         ?.split('=')[1];
-        
+
       const res = await fetch(`/api/products/${id}`, {
-        method: "PUT",
+        method: "POST",
         headers: {
           "Content-Type": "application/json",
           'Authorization': `Bearer ${token}`
@@ -108,7 +108,7 @@ export default function EditProductPage({ params }) {
       });
 
       const result = await res.json();
-      
+
       if (res.ok || result.success) {
         toast.success("Product updated successfully!");
         router.push("/admin/products");
@@ -135,8 +135,8 @@ export default function EditProductPage({ params }) {
     <div className="max-w-[1600px] mx-auto space-y-6 animate-in fade-in slide-in-from-bottom-4 duration-500 text-[#1a1d1f]">
       {/* Page Header */}
       <div className="flex items-center gap-3.5">
-        <Link 
-          href="/admin/products" 
+        <Link
+          href="/admin/products"
           className="p-1.5 bg-white border border-[#babfc3] rounded-lg text-[#1a1d1f] hover:bg-[#f6f6f7] transition-colors shadow-xs"
         >
           <ArrowLeft size={16} />
@@ -150,7 +150,7 @@ export default function EditProductPage({ params }) {
       {/* Form Card */}
       <div className="bg-white border border-[#e1e3e5] rounded-xl shadow-xs overflow-hidden">
         <form onSubmit={handleSubmit} className="p-6 md:p-8 space-y-6">
-          
+
           <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
             {/* Left Column */}
             <div className="space-y-4">

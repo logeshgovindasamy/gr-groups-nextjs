@@ -50,7 +50,11 @@ export async function POST(request) {
       return apiError('Title and price are required', 400);
     }
 
-    const product = await saveProduct(body);
+    const host = request.headers.get('host') || 'localhost:3000';
+    const protocol = request.headers.get('x-forwarded-proto') || 'http';
+    const origin = `${protocol}://${host}`;
+
+    const product = await saveProduct(body, origin);
     return apiSuccess(product, 201);
   } catch (error) {
     console.error('[Products POST]', error);
