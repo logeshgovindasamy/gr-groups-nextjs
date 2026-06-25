@@ -7,7 +7,7 @@ import {
   saveProduct as saveLegacyProduct
 } from "./product.service";
 
-// Helper to map local product images to beautiful Unsplash fallbacks
+// Helper to map local product images to beautiful Unsplash fallbacks or proxy WordPress URLs
 function resolveImage(img) {
   if (!img) return 'https://images.unsplash.com/photo-1523275335684-37898b6baf30?q=80&w=600&auto=format&fit=crop';
   if (typeof img === 'string') {
@@ -29,8 +29,45 @@ function resolveImage(img) {
       };
       return fallbacks[filename] || 'https://images.unsplash.com/photo-1523275335684-37898b6baf30?q=80&w=600&auto=format&fit=crop';
     }
+
+    // Rewrite absolute WordPress URLs to relative paths to utilize Next.js rewrites proxy
+    const wpUrl = process.env.NEXT_PUBLIC_WP_URL || 'http://localhost/Testwp';
+    const wpUrlAlt = 'http://127.0.0.1/Testwp';
+
+    if (img.startsWith(wpUrl)) {
+      return img.substring(wpUrl.length);
+    } else if (img.startsWith(wpUrlAlt)) {
+      return img.substring(wpUrlAlt.length);
+    } else if (img.includes('/wp-content/uploads/')) {
+      const idx = img.indexOf('/wp-content/uploads/');
+      if (idx !== -1) {
+        return img.substring(idx);
+      }
+    }
   }
   return img;
+}
+
+// Helper to convert relative URLs to absolute URLs using request origin before sending to WooCommerce
+function resolveRelativeImages(images, origin) {
+  if (!images || !Array.isArray(images)) return [];
+  return images.map(img => {
+    if (typeof img === 'string') {
+      if (img.startsWith('/')) {
+        const base = origin || 'http://127.0.0.1:3000';
+        return `${base.replace(/\/$/, '')}${img}`;
+      }
+      return img;
+    }
+    if (img && typeof img === 'object' && img.src) {
+      if (img.src.startsWith('/')) {
+        const base = origin || 'http://127.0.0.1:3000';
+        return { ...img, src: `${base.replace(/\/$/, '')}${img.src}` };
+      }
+      return img;
+    }
+    return img;
+  });
 }
 
 /**
@@ -363,7 +400,7 @@ export async function getCategories() {
           slug: cat.slug,
           count: cat.count,
           description: cat.description || "",
-          image: cat.image?.src || ""
+          image: resolveImage(cat.image?.src || "")
         });
       } else {
         const existing = uniqueMap.get(normalized);
@@ -437,7 +474,7 @@ export async function getTags() {
 /**
  * Update product in WooCommerce (with legacy DB fallback)
  */
-export async function updateProduct(id, updatedData) {
+export async function updateProduct(id, updatedData, origin = '') {
   try {
     if (String(id).startsWith("legacy-")) {
       const legacyId = String(id).replace("legacy-", "");
@@ -454,9 +491,11 @@ export async function updateProduct(id, updatedData) {
       wooPayload.stock_quantity = parseInt(updatedData.stock);
     }
     if (updatedData.images !== undefined) {
-      wooPayload.images = (updatedData.images || []).map(img => typeof img === "string" ? { src: img } : img);
+      const resolvedImages = resolveRelativeImages(updatedData.images || [], origin);
+      wooPayload.images = resolvedImages.map(img => typeof img === "string" ? { src: img } : img);
     } else if (updatedData.image !== undefined) {
-      wooPayload.images = [{ src: updatedData.image }];
+      const resolved = resolveRelativeImages([updatedData.image], origin);
+      wooPayload.images = [{ src: resolved[0] }];
     }
 
     try {
@@ -604,7 +643,7 @@ export async function getProductVariations(productId) {
       stock: v.stock_quantity !== null && v.stock_quantity !== undefined ? Number(v.stock_quantity) : null,
       stockStatus: v.stock_status || "instock",
       attributes: v.attributes || [], // e.g. [{ id: 1, name: "Color", option: "Black" }]
-      image: v.image?.src || null
+      image: resolveImage(v.image?.src || null)
     }));
   } catch (error) {
     console.error(`[productService.getProductVariations] Failed for product ${productId}:`, error.message);
@@ -638,7 +677,7 @@ export async function getProductReviews(productId) {
 /**
  * Save / Create a new product in WooCommerce (with legacy DB fallback)
  */
-export async function saveProduct(productData) {
+export async function saveProduct(productData, origin = '') {
   try {
     const wooPayload = {
       name: productData.name || productData.title || '',
@@ -663,9 +702,11 @@ export async function saveProduct(productData) {
     }
 
     if (productData.images && productData.images.length > 0) {
-      wooPayload.images = productData.images.map(img => typeof img === "string" ? { src: img } : img);
+      const resolvedImages = resolveRelativeImages(productData.images || [], origin);
+      wooPayload.images = resolvedImages.map(img => typeof img === "string" ? { src: img } : img);
     } else if (productData.image) {
-      wooPayload.images = [{ src: productData.image }];
+      const resolved = resolveRelativeImages([productData.image], origin);
+      wooPayload.images = [{ src: resolved[0] }];
     }
 
     try {
