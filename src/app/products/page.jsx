@@ -1,13 +1,13 @@
 "use client";
 
-import { useState, useEffect, useCallback } from "react";
+import { useState, useEffect, useCallback, Suspense } from "react";
 import { useRouter, useSearchParams } from "next/navigation";
 import Image from "next/image";
 import Link from "next/link";
 import { Star, Filter, SlidersHorizontal, Search, X, Check, ArrowUpDown, ChevronLeft, ChevronRight } from "lucide-react";
 import useLanguageStore from "@/store/useLanguageStore";
 
-export default function ProductsPage() {
+function ProductsContent() {
   const router = useRouter();
   const searchParams = useSearchParams();
   const { locale } = useLanguageStore();
@@ -997,5 +997,17 @@ export default function ProductsPage() {
         </div>
       )}
     </div>
+  );
+}
+
+export default function ProductsPage() {
+  return (
+    <Suspense fallback={
+      <div className="flex justify-center items-center min-h-[60vh]">
+        <div className="w-10 h-10 border-4 border-gray-200 border-t-accent rounded-full animate-spin" />
+      </div>
+    }>
+      <ProductsContent />
+    </Suspense>
   );
 }
