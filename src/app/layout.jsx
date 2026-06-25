@@ -4,6 +4,7 @@
  */
 
 import './globals.css';
+import { Suspense } from 'react';
 import Navbar from '@/components/layout/Navbar';
 import Footer from '@/components/layout/Footer';
 import ToastProvider from '@/components/ui/ToastProvider';
@@ -29,7 +30,9 @@ export default async function RootLayout({ children }) {
     <html lang="en">
       <body className="min-h-screen flex flex-col">
         <ToastProvider />
-        <Navbar />
+        <Suspense fallback={<div className="h-20 bg-background" />}>
+          <Navbar />
+        </Suspense>
         <main className="flex-grow pt-20">{children}</main>
         <Footer />
       </body>
