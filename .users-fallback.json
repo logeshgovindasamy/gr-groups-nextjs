@@ -11,7 +11,7 @@
     "createdAt": "2026-05-18T06:56:16.379Z",
     "resetOtp": null,
     "resetOtpExpiry": null,
-    "lastLoginAt": "2026-06-15T08:44:00.510Z"
+    "lastLoginAt": "2026-06-24T10:13:28.910Z"
   },
   {
     "pk": "USER",
@@ -33,7 +33,7 @@
     "role": "admin",
     "addresses": [],
     "createdAt": "2026-06-10T07:29:29.838Z",
-    "lastLoginAt": "2026-06-23T05:48:50.092Z"
+    "lastLoginAt": "2026-06-24T10:53:26.274Z"
   },
   {
     "id": "9af66758-843f-4e60-a00a-62c47b0c0a70",
@@ -62,7 +62,8 @@
     "password": "$2a$12$2iG58SKzrkYVTltJo42ASOe3I05h/KsWLioAA9dz4LhyG9uLpQgIK",
     "role": "USER",
     "addresses": [],
-    "createdAt": "2026-06-11T12:18:46.434Z"
+    "createdAt": "2026-06-11T12:18:46.434Z",
+    "blocked": false
   },
   {
     "id": "13109781-9d56-4bf4-b0e5-5dfd8fbb51f8",

@@ -7,10 +7,15 @@ if (dns.setDefaultResultOrder) {
 const nextConfig = {
   allowedDevOrigins: ['rearview-stipulate-said.ngrok-free.dev'],
   async rewrites() {
+    const wpUrl = (process.env.NEXT_PUBLIC_WORDPRESS_URL || process.env.NEXT_PUBLIC_WP_URL || 'http://localhost/Testwp').replace(/\/$/, '');
     return [
       {
         source: '/googlebb38bcbf804ae382.html',
         destination: '/api/google-verify',
+      },
+      {
+        source: '/wp-content/:path*',
+        destination: `${wpUrl}/wp-content/:path*`,
       },
     ]
   },
