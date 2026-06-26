@@ -1,6 +1,6 @@
 /**
  * Search Results Page
- * Migrated from: React SearchPage.jsx
+ * Redesigned for Luxury Storefront Theme
  */
 
 'use client';
@@ -12,19 +12,6 @@ import { Star, ShoppingBag, SearchX } from 'lucide-react';
 import useCartStore from '@/store/useCartStore';
 import toast from 'react-hot-toast';
 import Link from 'next/link';
-
-const ALL_PRODUCTS = [
-  { id: '1', name: 'Neon Stealth Hoodie', category: 'Streetwear', price: 149.0, rating: 4.9, description: 'Premium urban stealth hoodie with reflective neon accents.' },
-  { id: '2', name: 'Obsidian Tech Jacket', category: 'Tech Wear', price: 229.0, rating: 4.9, description: 'Water-resistant tech jacket with magnetic closures.' },
-  { id: '3', name: 'Phantom Runner Pro', category: 'Footwear', price: 189.0, rating: 4.7, description: 'Ultra-lightweight running shoes with carbon fiber plate.' },
-  { id: '4', name: 'Midnight Velvet Blazer', category: 'Formal', price: 899.0, rating: 4.8, description: 'Italian velvet blazer with hand-stitched lapels.' },
-  { id: '5', name: 'Heritage Leather Boots', category: 'Footwear', price: 649.0, rating: 4.7, description: 'Full-grain leather boots with Goodyear welt construction.' },
-  { id: '6', name: 'Titanium Chronograph Watch', category: 'Accessories', price: 2499.0, rating: 5.0, description: 'Swiss-made automatic movement with sapphire crystal.' },
-  { id: '7', name: 'Silk Pocket Square Set', category: 'Accessories', price: 149.0, rating: 4.6, description: 'Set of 5 hand-rolled silk pocket squares.' },
-  { id: '8', name: 'Monogram Leather Wallet', category: 'Accessories', price: 299.0, rating: 4.5, description: 'Hand-embossed calfskin wallet with RFID protection.' },
-  { id: '9', name: 'Merino Wool Turtleneck', category: 'Knitwear', price: 349.0, rating: 4.8, description: 'Ultra-fine merino wool turtleneck.' },
-  { id: '10', name: 'Carbon Fiber Belt', category: 'Accessories', price: 179.0, rating: 4.4, description: 'Lightweight carbon fiber belt with titanium buckle.' },
-];
 
 function SearchResults() {
   const searchParams = useSearchParams();
@@ -49,7 +36,7 @@ function SearchResults() {
             (p) =>
               (p.name || p.title || '').toLowerCase().includes(q) ||
               (p.description || '').toLowerCase().includes(q) ||
-              (p.category || '').toLowerCase().includes(q)
+              (p.categories?.[0]?.name || p.category || '').toLowerCase().includes(q)
           );
           setResults(filtered);
         }
@@ -63,99 +50,129 @@ function SearchResults() {
   }, [query]);
 
   const handleAddToCart = (product) => {
-    const imageUrl = product.images && product.images.length > 0 ? product.images[0] : product.image || '';
+    const imageUrl = product.images && product.images.length > 0 ? (product.images[0].src || product.images[0]) : product.image || '';
     addToCart({ 
       id: product.id, 
       name: product.name || product.title, 
-      price: product.price, 
+      price: parseFloat(product.price || 0), 
       image: imageUrl,
-      stock: product.stock,
+      stock: product.stock_quantity ?? product.stock,
       qty: 1 
     });
     toast.success(`${product.name || product.title} added to cart`);
   };
 
   return (
-    <div className="container mx-auto px-6 py-12">
-      <motion.div initial={{ opacity: 0, y: 20 }} animate={{ opacity: 1, y: 0 }}>
-        <h1 className="text-3xl font-bold mb-2">
-          Search results for: <span className="text-accent">"{query}"</span>
-        </h1>
-        {loading ? (
-          <p className="text-textMuted mb-8">Searching products...</p>
-        ) : (
-          <p className="text-textMuted mb-8">{results.length} product{results.length !== 1 ? 's' : ''} found</p>
-        )}
-      </motion.div>
-
-      {loading ? (
-        <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-6">
-          {[...Array(4)].map((_, i) => (
-            <div key={i} className="product-card animate-pulse">
-              <div className="h-56 bg-surface rounded-xl skeleton" />
-              <div className="space-y-2 mt-4">
-                <div className="h-4 bg-surface rounded skeleton w-3/4" />
-                <div className="h-3 bg-surface rounded skeleton w-1/2" />
-              </div>
-            </div>
-          ))}
-        </div>
-      ) : results.length === 0 ? (
-        <motion.div initial={{ opacity: 0 }} animate={{ opacity: 1 }} className="text-center py-20">
-          <SearchX size={56} className="mx-auto text-textMuted mb-4" />
-          <h2 className="text-2xl font-semibold mb-2">No products found</h2>
-          <p className="text-textMuted mb-6">Try a different search term or browse our collections.</p>
-          <Link href="/products" className="btn-primary">Browse Products</Link>
+    <div className="bg-[#f5f3ef] min-h-screen pt-28 pb-16">
+      <div className="container mx-auto px-6 py-12">
+        <motion.div initial={{ opacity: 0, y: 20 }} animate={{ opacity: 1, y: 0 }}>
+          <h1 className="text-3xl font-bold font-serif text-[#123026] mb-2">
+            Search results for: <span className="text-[#b89d70]">"{query}"</span>
+          </h1>
+          {loading ? (
+            <p className="text-[#6a7571] text-sm mb-8 font-semibold">Searching products...</p>
+          ) : (
+            <p className="text-[#6a7571] text-sm mb-8 font-semibold">{results.length} product{results.length !== 1 ? 's' : ''} found</p>
+          )}
         </motion.div>
-      ) : (
-        <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-6">
-          {results.map((product, i) => (
-            <motion.div
-              key={product.id}
-              initial={{ opacity: 0, y: 20 }}
-              animate={{ opacity: 1, y: 0 }}
-              transition={{ delay: i * 0.05 }}
-              whileHover={{ y: -8 }}
-              className="product-card group"
-            >
-              <div className="h-56 bg-surface rounded-xl overflow-hidden relative">
-                <div className="absolute inset-0 bg-gradient-to-br from-primary/5 to-secondary/5" />
-                <div className="absolute inset-0 flex items-center justify-center">
-                  <div className="w-16 h-16 rounded-full bg-gradient-to-tr from-primary/20 to-accent/20 flex items-center justify-center">
-                    <Star size={20} className="text-accent/60" />
-                  </div>
-                </div>
-                <div className="absolute inset-0 bg-gradient-to-t from-background/80 to-transparent opacity-0 group-hover:opacity-100 transition-opacity duration-300 flex items-end p-4">
-                  <button
-                    onClick={() => handleAddToCart(product)}
-                    className="w-full bg-white text-black py-2 rounded-lg font-medium hover:bg-gray-200 transition-colors flex items-center justify-center gap-2"
-                  >
-                    <ShoppingBag size={16} /> Quick Add
-                  </button>
+
+        {loading ? (
+          <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-6">
+            {[...Array(4)].map((_, i) => (
+              <div key={i} className="glass-panel bg-white/70 border border-[#eae8e4]/60 p-4 rounded-2xl animate-pulse">
+                <div className="aspect-square bg-[#eae8e4]/50 rounded-xl skeleton" />
+                <div className="space-y-2 mt-4">
+                  <div className="h-4 bg-[#eae8e4]/50 rounded skeleton w-3/4" />
+                  <div className="h-3 bg-[#eae8e4]/50 rounded skeleton w-1/2" />
                 </div>
               </div>
-              <div>
-                <p className="text-xs text-accent/80 font-medium uppercase tracking-wider mb-1">{product.category}</p>
-                <h4 className="font-medium text-lg">{product.name}</h4>
-                <div className="flex justify-between items-center mt-2">
-                  <span className="font-bold text-lg">${product.price.toFixed(2)}</span>
-                  <div className="flex items-center text-yellow-400 text-sm gap-1">
-                    <Star size={14} fill="currentColor" />
-                    <span className="text-textLight">{product.rating}</span>
+            ))}
+          </div>
+        ) : results.length === 0 ? (
+          <motion.div initial={{ opacity: 0 }} animate={{ opacity: 1 }} className="text-center py-20 glass-panel bg-white/70 border border-[#eae8e4]/60 rounded-2xl">
+            <SearchX size={56} className="mx-auto text-[#6a7571]/40 mb-4" />
+            <h2 className="text-2xl font-bold font-serif text-[#123026] mb-2">No products found</h2>
+            <p className="text-[#6a7571] mb-6">Try a different search term or browse our collections.</p>
+            <Link href="/products" className="btn-primary">Browse Products</Link>
+          </motion.div>
+        ) : (
+          <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-6">
+            {results.map((product, i) => {
+              const imageUrl = product.images && product.images.length > 0 ? (product.images[0].src || product.images[0]) : product.image || '';
+              return (
+                <motion.div
+                  key={product.id}
+                  initial={{ opacity: 0, y: 20 }}
+                  animate={{ opacity: 1, y: 0 }}
+                  transition={{ delay: i * 0.05 }}
+                  className="glass-panel bg-white/70 border border-[#eae8e4]/60 p-4 rounded-2xl flex flex-col justify-between shadow-luxury transition-all duration-300 group hover:-translate-y-1 hover:shadow-xl"
+                >
+                  <div className="relative aspect-square bg-[#f4f2ee] rounded-xl overflow-hidden mb-4 border border-[#eae8e4]/50 p-2 flex items-center justify-center">
+                    <div className="relative w-full h-full flex items-center justify-center">
+                      {imageUrl ? (
+                        <img 
+                          src={imageUrl} 
+                          alt={product.name || product.title} 
+                          className="w-full h-full object-contain mix-blend-multiply transition-transform duration-500 group-hover:scale-105" 
+                        />
+                      ) : (
+                        <div className="w-full h-full flex items-center justify-center text-4xl font-serif text-[#b89d70] bg-[#123026]/5 rounded-xl">
+                          {(product.name || product.title || 'P').charAt(0).toUpperCase()}
+                        </div>
+                      )}
+                    </div>
+                    {/* Hover Add to Cart overlay */}
+                    <div className="absolute inset-0 bg-[#123026]/40 opacity-0 group-hover:opacity-100 transition-all duration-300 flex items-center justify-center p-4 backdrop-blur-xs">
+                      <button
+                        onClick={(e) => {
+                          e.preventDefault();
+                          e.stopPropagation();
+                          handleAddToCart(product);
+                        }}
+                        className="w-full bg-[#f5f3ef] text-[#123026] hover:bg-[#123026] hover:text-white py-2 rounded-lg font-semibold text-xs shadow-luxury transition-all duration-300 flex items-center justify-center gap-2"
+                      >
+                        <ShoppingBag size={14} /> Quick Add
+                      </button>
+                    </div>
                   </div>
-                </div>
-              </div>
-            </motion.div>
-          ))}
-        </div>
-      )}
+
+                  <div>
+                    <p className="text-[10px] text-[#b89d70] font-bold uppercase tracking-wider mb-1">{product.categories?.[0]?.name || product.category || 'Luxury'}</p>
+                    <Link href={`/product/${product.slug || product.id}`}>
+                      <h4 className="font-semibold font-serif text-[#123026] text-base group-hover:text-[#b89d70] transition-colors line-clamp-1">{product.name || product.title}</h4>
+                    </Link>
+                    <div className="flex justify-between items-center mt-2.5 pt-2.5 border-t border-[#eae8e4]">
+                      <span className="font-bold text-[#123026]">${parseFloat(product.price || 0).toFixed(2)}</span>
+                      {product.average_rating ? (
+                        <div className="flex items-center text-[#b89d70] text-xs gap-1 font-bold">
+                          <Star size={12} fill="currentColor" />
+                          <span>{parseFloat(product.average_rating).toFixed(1)}</span>
+                        </div>
+                      ) : (
+                        <div className="flex items-center text-[#b89d70] text-xs gap-1 font-bold">
+                          <Star size={12} fill="currentColor" />
+                          <span>5.0</span>
+                        </div>
+                      )}
+                    </div>
+                  </div>
+                </motion.div>
+              );
+            })}
+          </div>
+        )}
+      </div>
     </div>
   );
 }
 
 export default function SearchPage() {
   return (
-    <Suspense fallback={<div className="flex justify-center py-20"><div className="w-12 h-12 border-4 border-white/10 border-t-accent rounded-full animate-spin" /></div>}>
+    <Suspense fallback={
+      <div className="flex justify-center items-center min-h-[60vh] bg-[#f5f3ef]">
+        <div className="w-12 h-12 border-4 border-[#eae8e4] border-t-[#b89d70] rounded-full animate-spin" />
+      </div>
+    }>
       <SearchResults />
     </Suspense>
   );

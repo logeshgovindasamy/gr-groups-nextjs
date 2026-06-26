@@ -2,9 +2,15 @@
 @tailwind components;
 @tailwind utilities;
 
+:root {
+  --font-sans: "Times New Roman", Times, serif !important;
+  --font-serif: "Times New Roman", Times, serif !important;
+}
+
 @layer base {
   body {
-    @apply bg-background text-textLight antialiased font-sans;
+    @apply bg-background text-textLight antialiased;
+    font-family: "Times New Roman", Times, serif !important;
     line-height: 1.5;
   }
 

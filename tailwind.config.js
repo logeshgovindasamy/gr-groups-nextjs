@@ -9,7 +9,7 @@ module.exports = {
   theme: {
     extend: {
       colors: {
-        background: '#fcfcfa', // Luxury cream/ivory background
+        background: '#f5f3ef', // Luxury cream/ivory background
         surface: '#ffffff',
         primary: '#123026', // Luxury Forest Green
         secondary: '#6a7571', // Sage muted grey-green
@@ -18,11 +18,11 @@ module.exports = {
         textMuted: '#6a7571',
         luxuryGreen: '#123026',
         luxuryGold: '#b89d70',
-        luxuryCream: '#fcfcfa',
+        luxuryCream: '#f5f3ef',
       },
       fontFamily: {
-        sans: ['var(--font-sans)', 'system-ui', 'sans-serif'],
-        serif: ['var(--font-serif)', 'Georgia', 'serif'],
+        sans: ['"Times New Roman"', 'Times', 'serif'],
+        serif: ['"Times New Roman"', 'Times', 'serif'],
       },
       animation: {
         'fade-in': 'fadeIn 0.5s ease-out',

@@ -43,7 +43,7 @@ const Navbar = () => {
   const handleLanguageChange = (code) => {
     setLocale(code);
     setLangOpen(false);
-    
+
     const params = new URLSearchParams(searchParams.toString());
     params.set('lang', code);
     router.push(`${pathname}?${params.toString()}`);
@@ -65,7 +65,8 @@ const Navbar = () => {
   };
 
   const searchSubmitHandler = (e) => {
-    if (e?.preventDefault) e.preventDefault();
+    if (e?.preventDefault)
+      e.preventDefault();
     if (searchKeyword.trim()) {
       router.push(`/search?q=${encodeURIComponent(searchKeyword)}`);
       setSearchOpen(false);
@@ -104,38 +105,43 @@ const Navbar = () => {
   ];
 
   return (
-    <nav
-      className={`fixed top-0 w-full z-50 transition-all duration-300 ${isScrolled ? 'glass-panel py-3' : 'bg-transparent py-5'
+    <motion.nav
+      initial={{ y: -100, opacity: 0 }}
+      animate={{ y: 0, opacity: 1 }}
+      transition={{ duration: 0.8, ease: [0.16, 1, 0.3, 1] }}
+      className={`fixed top-0 left-0 right-0 z-50 transition-all duration-500 w-[92%] max-w-7xl mx-auto rounded-full border border-white/20 shadow-luxury backdrop-blur-md ${isScrolled
+          ? 'mt-3 py-2.5 bg-white/90 border-[#eae8e4]/60'
+          : 'mt-6 py-4 bg-white/70 border-[#eae8e4]/30'
         }`}
     >
-      <div className="container mx-auto px-6 flex items-center justify-between">
+      <div className="px-6 md:px-8 flex items-center justify-between w-full">
         {/* Logo */}
         <Link
           href="/"
-          className="flex items-center gap-3.5 group"
+          className="flex items-center gap-3 group"
         >
-          <div className="w-9 h-9 rounded-full bg-gradient-to-tr from-primary to-accent flex items-center justify-center group-hover:rotate-12 transition-transform duration-300">
-            <ShoppingBag size={18} className="text-white" />
+          <div className="w-8 h-8 rounded-full bg-[#123026] border border-[#b89d70]/30 flex items-center justify-center text-white font-bold text-xs tracking-normal font-sans transition-transform duration-500 group-hover:rotate-12">
+            GR
           </div>
-          <span className="text-primary font-medium tracking-[0.18em] text-base uppercase">
+          <span className="text-[#123026] font-sans font-semibold tracking-[0.2em] text-xs md:text-sm uppercase">
             GR GROUPS
           </span>
         </Link>
 
         {/* Desktop Links */}
-        <div className="hidden md:flex items-center gap-8 text-sm font-medium text-textMuted">
+        <div className="hidden md:flex items-center gap-8 text-xs font-semibold tracking-wider text-[#6a7571] uppercase font-sans">
           {navLinks.map((link) => (
             <Link
               key={link.href}
               href={link.href}
-              className={`hover:text-primary transition-colors relative ${link.active ? 'text-primary' : ''
+              className={`hover:text-[#123026] transition-colors relative py-1 ${link.active ? 'text-[#123026]' : ''
                 }`}
             >
               {link.label}
               {link.active && (
                 <motion.div
                   layoutId="activeNav"
-                  className="absolute -bottom-1 left-0 right-0 h-0.5 bg-gradient-to-r from-primary to-accent rounded-full"
+                  className="absolute -bottom-0.5 left-0 right-0 h-[1.5px] bg-[#b89d70] rounded-full"
                 />
               )}
             </Link>
@@ -143,9 +149,9 @@ const Navbar = () => {
           {userInfo?.role === 'admin' && (
             <Link
               href="/admin"
-              className="text-accent hover:text-primary transition-colors font-bold"
+              className="text-[#b89d70] hover:text-[#123026] transition-colors font-bold"
             >
-              Admin Dashboard
+              Admin
             </Link>
           )}
         </div>
@@ -158,7 +164,7 @@ const Navbar = () => {
               {searchOpen && (
                 <motion.form
                   initial={{ width: 0, opacity: 0 }}
-                  animate={{ width: 240, opacity: 1 }}
+                  animate={{ width: 200, opacity: 1 }}
                   exit={{ width: 0, opacity: 0 }}
                   transition={{ duration: 0.3 }}
                   onSubmit={searchSubmitHandler}
@@ -166,8 +172,8 @@ const Navbar = () => {
                 >
                   <input
                     type="text"
-                    placeholder="Search premium products..."
-                    className="w-full bg-surface border border-gray-200 rounded-full py-1.5 px-4 text-sm text-primary focus:outline-none focus:border-accent backdrop-blur-md"
+                    placeholder="Search..."
+                    className="w-full bg-white/95 border border-[#eae8e4] rounded-full py-1 px-3 text-xs text-primary focus:outline-none focus:border-[#b89d70] backdrop-blur-md"
                     value={searchKeyword}
                     onChange={(e) => setSearchKeyword(e.target.value)}
                     autoFocus
@@ -176,7 +182,7 @@ const Navbar = () => {
               )}
             </AnimatePresence>
             <button
-              className="text-textMuted hover:text-accent transition-colors z-10"
+              className="text-[#6a7571] hover:text-[#123026] transition-colors z-10"
               onClick={() => {
                 if (searchOpen && searchKeyword) {
                   searchSubmitHandler({ preventDefault: () => { } });
@@ -186,32 +192,32 @@ const Navbar = () => {
               }}
               aria-label="Search"
             >
-              <Search size={20} />
+              <Search size={18} />
             </button>
           </div>
 
           {/* User & Auth */}
           {userInfo ? (
-            <div className="flex items-center gap-3">
-              <span className="text-sm font-medium text-textMuted">
+            <div className="flex items-center gap-2">
+              <span className="text-xs font-semibold text-[#6a7571] max-w-[80px] truncate">
                 {userInfo.name}
               </span>
               <button
                 onClick={logoutHandler}
-                className="text-textMuted hover:text-red-400 transition-colors"
+                className="text-[#6a7571] hover:text-red-500 transition-colors"
                 title="Logout"
               >
-                <LogOut size={20} />
+                <LogOut size={18} />
               </button>
             </div>
           ) : (
-            <div className="flex items-center gap-3">
+            <div className="flex items-center">
               <Link
                 href="/login"
-                className="text-textMuted hover:text-accent transition-colors"
+                className="text-[#6a7571] hover:text-[#123026] transition-colors"
                 title="Sign In / Register"
               >
-                <User size={20} />
+                <User size={18} />
               </Link>
             </div>
           )}
@@ -219,15 +225,15 @@ const Navbar = () => {
           {/* Cart */}
           <Link
             href="/cart"
-            className="text-textMuted hover:text-accent transition-colors relative"
+            className="text-[#6a7571] hover:text-[#123026] transition-colors relative"
             title="Cart"
           >
-            <ShoppingBag size={20} />
+            <ShoppingBag size={18} />
             {totalCartQty > 0 && (
               <motion.span
                 initial={{ scale: 0 }}
                 animate={{ scale: 1 }}
-                className="absolute -top-2 -right-2 bg-primary text-white text-[10px] w-5 h-5 rounded-full flex items-center justify-center font-bold"
+                className="absolute -top-1.5 -right-1.5 bg-[#123026] text-white text-[8px] w-4 h-4 rounded-full flex items-center justify-center font-bold"
               >
                 {totalCartQty}
               </motion.span>
@@ -237,12 +243,15 @@ const Navbar = () => {
           {/* Order History */}
           <Link
             href="/orders"
-            className="flex items-center gap-1 text-accent hover:text-primary transition-colors"
+            className="text-[#6a7571] hover:text-[#123026] transition-colors flex items-center gap-1"
             title="History"
           >
-            <History size={20} />
-            <span className="text-sm">History</span>
+            <History size={18} />
+            <span className="text-xs font-semibold uppercase tracking-wider font-sans">History</span>
           </Link>
+
+          {/* Vertical Divider */}
+          <div className="h-4 w-px bg-[#eae8e4] self-center mx-1" />
 
           {/* Language Selector */}
           <div className="relative">
@@ -251,38 +260,35 @@ const Navbar = () => {
                 e.stopPropagation();
                 setLangOpen(!langOpen);
               }}
-              className="flex items-center gap-1.5 text-textMuted hover:text-accent transition-colors bg-white/5 border border-white/10 hover:border-accent/40 rounded-full px-3 py-1.5 text-sm backdrop-blur-md"
+              className="flex items-center gap-1 text-[#6a7571] hover:text-[#123026] transition-colors text-xs font-semibold uppercase tracking-wider font-sans"
               title="Change Language"
             >
-              <Globe size={16} />
-              <span className="uppercase font-semibold text-xs">{currentLang.code}</span>
-              <span className="text-[10px]">{currentLang.flag}</span>
-              <ChevronDown size={12} className={`transition-transform duration-300 ${langOpen ? 'rotate-180' : ''}`} />
+              <span>{currentLang.code}</span>
+              <ChevronDown size={10} className={`transition-transform duration-300 ${langOpen ? 'rotate-180' : ''}`} />
             </button>
-            
+
             <AnimatePresence>
               {langOpen && (
                 <motion.div
                   initial={{ opacity: 0, y: 10 }}
                   animate={{ opacity: 1, y: 0 }}
                   exit={{ opacity: 0, y: 10 }}
-                  className="absolute right-0 mt-2.5 w-44 rounded-xl border border-white/10 bg-[#161616]/95 backdrop-blur-xl p-1.5 shadow-2xl z-50 flex flex-col gap-0.5"
+                  className="absolute right-0 mt-3 w-40 rounded-xl border border-[#eae8e4] bg-white/95 backdrop-blur-xl p-1 shadow-xl z-50 flex flex-col gap-0.5"
                 >
                   {languagesList.map((lang) => (
                     <button
                       key={lang.code}
                       onClick={() => handleLanguageChange(lang.code)}
-                      className={`w-full text-left px-3 py-2 rounded-lg text-xs font-semibold flex items-center justify-between transition-colors ${
-                        locale === lang.code
-                          ? 'bg-primary text-white'
-                          : 'text-textMuted hover:bg-white/5 hover:text-white'
-                      }`}
+                      className={`w-full text-left px-2.5 py-1.5 rounded-lg text-xs font-semibold flex items-center justify-between transition-colors ${locale === lang.code
+                          ? 'bg-[#123026] text-white'
+                          : 'text-[#6a7571] hover:bg-[#eae8e4]/40 hover:text-[#123026]'
+                        }`}
                     >
                       <span className="flex items-center gap-2">
                         <span>{lang.flag}</span>
                         <span>{lang.label}</span>
                       </span>
-                      {locale === lang.code && <span className="w-1.5 h-1.5 rounded-full bg-accent" />}
+                      {locale === lang.code && <span className="w-1 h-1 rounded-full bg-[#b89d70]" />}
                     </button>
                   ))}
                 </motion.div>
@@ -293,11 +299,11 @@ const Navbar = () => {
 
         {/* Mobile Menu Toggle */}
         <button
-          className="md:hidden text-primary p-1"
+          className="md:hidden text-[#123026] p-1"
           onClick={() => setMobileMenuOpen(!mobileMenuOpen)}
           aria-label="Toggle menu"
         >
-          {mobileMenuOpen ? <X size={24} /> : <Menu size={24} />}
+          {mobileMenuOpen ? <X size={20} /> : <Menu size={20} />}
         </button>
       </div>
 
@@ -381,11 +387,10 @@ const Navbar = () => {
                     handleLanguageChange(lang.code);
                     setMobileMenuOpen(false);
                   }}
-                  className={`flex flex-col items-center gap-1 p-2 rounded-lg border transition-all ${
-                    locale === lang.code
-                      ? 'border-accent/40 bg-primary/10 scale-105'
-                      : 'border-transparent bg-transparent opacity-60'
-                  }`}
+                  className={`flex flex-col items-center gap-1 p-2 rounded-lg border transition-all ${locale === lang.code
+                    ? 'border-accent/40 bg-primary/10 scale-105'
+                    : 'border-transparent bg-transparent opacity-60'
+                    }`}
                 >
                   <span className="text-xl">{lang.flag}</span>
                   <span className="text-[10px] uppercase font-bold text-textMuted">{lang.code}</span>
@@ -395,7 +400,7 @@ const Navbar = () => {
           </motion.div>
         )}
       </AnimatePresence>
-    </nav>
+    </motion.nav>
   );
 };
 

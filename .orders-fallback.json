@@ -1486,5 +1486,40 @@
     "deliveredAt": null,
     "createdAt": "2026-06-25T08:19:25",
     "status": "processing"
+  },
+  {
+    "id": "515301a3-6bdf-468a-821d-067a39d99b7c",
+    "userId": "0f0af0d0-e543-4ecc-a431-cca4aa1b8dc1",
+    "user": "0f0af0d0-e543-4ecc-a431-cca4aa1b8dc1",
+    "orderItems": [
+      {
+        "name": "Artisan Sunglasses",
+        "qty": 1,
+        "image": "/wp-content/uploads/2026/06/400-2.jpg",
+        "price": 459,
+        "productId": "243"
+      }
+    ],
+    "shippingAddress": {
+      "address": "123 Luxury Lane",
+      "city": "Metropolis",
+      "postalCode": "10001",
+      "country": "USA"
+    },
+    "paymentMethod": "Credit Card",
+    "paymentResult": "success",
+    "taxPrice": 68.85,
+    "shippingPrice": 0,
+    "totalPrice": 481.95,
+    "discountPrice": 45.9,
+    "appliedCoupons": [
+      "987654321"
+    ],
+    "isPaid": true,
+    "paidAt": null,
+    "isDelivered": false,
+    "deliveredAt": null,
+    "createdAt": "2026-06-26T07:43:37.494Z",
+    "status": "processing"
   }
 ]

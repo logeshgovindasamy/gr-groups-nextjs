@@ -62,19 +62,19 @@ export default function CouponSection({ onCartUpdate, cartToken }) {
   };
 
   return (
-    <div className="mt-6 pt-6 border-t border-black/10">
-      <h3 className="text-sm font-bold mb-3 text-black uppercase tracking-wider">Promo Code</h3>
-
+    <div className="mt-6 pt-6 border-t border-[#eae8e4]">
+      <h3 className="text-sm font-bold mb-3 text-[#123026] uppercase tracking-wider">Promo Code</h3>
+ 
       {hasAppliedCoupon ? (
-        <div className="bg-emerald-50 border border-emerald-200 rounded-xl p-3.5 flex items-center justify-between gap-4">
+        <div className="bg-[#123026]/5 border border-[#123026]/10 rounded-xl p-3.5 flex items-center justify-between gap-4">
           <div className="min-w-0">
-            <p className="text-xs text-emerald-600 font-bold uppercase tracking-wider">Active Coupon</p>
-            <p className="text-sm font-extrabold text-slate-900 uppercase truncate">{appliedCoupons[0]}</p>
+            <p className="text-xs text-[#123026] font-bold uppercase tracking-wider">Active Coupon</p>
+            <p className="text-sm font-extrabold text-[#b89d70] uppercase truncate">{appliedCoupons[0]}</p>
           </div>
           <button
             onClick={handleRemoveCoupon}
             disabled={loading}
-            className="text-xs font-bold text-red-600 hover:text-red-700 transition-colors uppercase disabled:opacity-50"
+            className="text-xs font-bold text-red-500 hover:text-red-600 transition-colors uppercase disabled:opacity-50"
           >
             {loading ? 'Removing...' : 'Remove'}
           </button>
@@ -87,12 +87,12 @@ export default function CouponSection({ onCartUpdate, cartToken }) {
             value={couponInput}
             onChange={(e) => setCouponInput(e.target.value)}
             disabled={loading}
-            className="flex-1 px-3 py-2 border border-slate-200 bg-white text-slate-900 rounded-lg text-sm placeholder-slate-400 focus:outline-none focus:ring-2 focus:ring-accent/15 uppercase"
+            className="flex-1 px-3 py-2 border border-[#eae8e4] bg-white/50 text-[#123026] rounded-lg text-sm placeholder-[#6a7571]/50 focus:outline-none focus:ring-2 focus:ring-[#b89d70]/15 uppercase"
           />
           <button
             type="submit"
             disabled={loading || !couponInput.trim()}
-            className="px-4 py-2 bg-accent hover:bg-[#006e52] text-white rounded-lg font-semibold text-sm transition-all disabled:opacity-50 flex items-center justify-center min-w-[72px]"
+            className="px-4 py-2 bg-[#123026] hover:bg-[#1b4335] text-white rounded-lg font-semibold text-sm transition-all disabled:opacity-50 flex items-center justify-center min-w-[72px]"
           >
             {loading ? (
               <span className="w-4 h-4 border-2 border-white/30 border-t-white rounded-full animate-spin" />
@@ -102,13 +102,13 @@ export default function CouponSection({ onCartUpdate, cartToken }) {
           </button>
         </form>
       )}
-
+ 
       {/* Error & Success Messages */}
       {errorMsg && (
-        <p className="mt-2 text-xs font-semibold text-red-600">{errorMsg}</p>
+        <p className="mt-2 text-xs font-semibold text-red-500">{errorMsg}</p>
       )}
       {successMsg && (
-        <p className="mt-2 text-xs font-semibold text-emerald-600">{successMsg}</p>
+        <p className="mt-2 text-xs font-semibold text-emerald-700">{successMsg}</p>
       )}
     </div>
   );
