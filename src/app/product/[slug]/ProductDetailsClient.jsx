@@ -17,10 +17,10 @@ export default function ProductDetailsClient({ product, variations, relatedProdu
   // Dynamic selected attributes state
   const [selectedOpts, setSelectedOpts] = useState({});
   const [matchedVariation, setMatchedVariation] = useState(null);
-  const [activePrice, setActivePrice] = useState(product.price);
-  const [activeRegPrice, setActiveRegPrice] = useState(product.regularPrice || product.price);
-  const [activeStock, setActiveStock] = useState(product.stock);
-  const [activeStockStatus, setActiveStockStatus] = useState(product.stockStatus);
+  const [activePrice, setActivePrice] = useState(product?.price || 0);
+  const [activeRegPrice, setActiveRegPrice] = useState(product?.regularPrice || product?.price || 0);
+  const [activeStock, setActiveStock] = useState(product?.stock !== undefined ? product.stock : null);
+  const [activeStockStatus, setActiveStockStatus] = useState(product?.stockStatus || "instock");
 
   // Reviews state
   const [reviews, setReviews] = useState([]);
@@ -28,10 +28,10 @@ export default function ProductDetailsClient({ product, variations, relatedProdu
 
   // Initialize selected attributes with first options if variable product
   useEffect(() => {
-    if (product.attributes && product.attributes.length > 0) {
+    if (product?.attributes && product.attributes.length > 0) {
       const initialOpts = {};
       product.attributes.forEach((attr) => {
-        if (attr.options && attr.options.length > 0) {
+        if (attr && attr.name && attr.options && attr.options.length > 0) {
           initialOpts[attr.name] = attr.options[0];
         }
       });
@@ -41,9 +41,11 @@ export default function ProductDetailsClient({ product, variations, relatedProdu
 
   // Match selected attributes to a variation whenever choices change
   useEffect(() => {
-    if (product.type === "variable" && variations.length > 0) {
+    if (product && product.type === "variable" && variations && variations.length > 0) {
       const matched = variations.find((v) => {
+        if (!v || !v.attributes) return false;
         return v.attributes.every((attr) => {
+          if (!attr || !attr.name) return true;
           const selectedVal = selectedOpts[attr.name];
           // WooCommerce variation options can be empty/wildcard matching any value
           return !attr.option || selectedVal === attr.option;
@@ -52,13 +54,13 @@ export default function ProductDetailsClient({ product, variations, relatedProdu
 
       if (matched) {
         setMatchedVariation(matched);
-        setActivePrice(matched.price);
-        setActiveRegPrice(matched.regularPrice || matched.price);
-        setActiveStock(matched.stock);
-        setActiveStockStatus(matched.stockStatus);
+        setActivePrice(matched.price || 0);
+        setActiveRegPrice(matched.regularPrice || matched.price || 0);
+        setActiveStock(matched.stock !== undefined ? matched.stock : null);
+        setActiveStockStatus(matched.stockStatus || "instock");
         
         // If variation has a custom image, switch gallery index if found
-        if (matched.image) {
+        if (matched.image && product.images) {
           const imgIdx = product.images.findIndex((img) => img === matched.image);
           if (imgIdx !== -1) {
             setActiveImageIndex(imgIdx);
@@ -67,17 +69,17 @@ export default function ProductDetailsClient({ product, variations, relatedProdu
       } else {
         // Fallback to main product details if no variation matches
         setMatchedVariation(null);
-        setActivePrice(product.price);
-        setActiveRegPrice(product.regularPrice || product.price);
-        setActiveStock(product.stock);
-        setActiveStockStatus(product.stockStatus);
+        setActivePrice(product.price || 0);
+        setActiveRegPrice(product.regularPrice || product.price || 0);
+        setActiveStock(product.stock !== undefined ? product.stock : null);
+        setActiveStockStatus(product.stockStatus || "instock");
       }
-    } else {
+    } else if (product) {
       // Simple product values
-      setActivePrice(product.price);
-      setActiveRegPrice(product.regularPrice || product.price);
-      setActiveStock(product.stock);
-      setActiveStockStatus(product.stockStatus);
+      setActivePrice(product.price || 0);
+      setActiveRegPrice(product.regularPrice || product.price || 0);
+      setActiveStock(product.stock !== undefined ? product.stock : null);
+      setActiveStockStatus(product.stockStatus || "instock");
     }
   }, [selectedOpts, product, variations]);
 
@@ -272,11 +274,11 @@ export default function ProductDetailsClient({ product, variations, relatedProdu
           {/* Rating & Reviews Summarized */}
           <div className="flex items-center gap-2 mt-2">
             <div className="flex items-center bg-emerald-600 text-white text-xs font-bold px-2 py-0.5 rounded-md gap-0.5">
-              <span>{product.rating.toFixed(1)}</span>
+              <span>{Number(product?.rating || 0).toFixed(1)}</span>
               <Star className="w-3 h-3 fill-white text-white" />
             </div>
             <span className="text-sm text-slate-500 font-medium">
-              {product.numReviews} Ratings & {reviews.length} Reviews
+              {product?.numReviews || 0} Ratings & {reviews.length} Reviews
             </span>
           </div>
         </div>
@@ -287,12 +289,12 @@ export default function ProductDetailsClient({ product, variations, relatedProdu
         <div className="mb-6">
           <div className="flex items-baseline gap-3">
             <span className="text-3xl font-extrabold text-slate-900">
-              ${activePrice.toFixed(2)}
+              ${Number(activePrice || 0).toFixed(2)}
             </span>
             {activeDiscount > 0 && (
               <>
                 <span className="text-base text-slate-400 line-through">
-                  ${activeRegPrice.toFixed(2)}
+                  ${Number(activeRegPrice || 0).toFixed(2)}
                 </span>
                 <span className="text-sm font-semibold text-green-600">
                   {activeDiscount}% Off
@@ -304,10 +306,11 @@ export default function ProductDetailsClient({ product, variations, relatedProdu
         </div>
 
         {/* Dynamic Attribute Selectors */}
-        {product.attributes && product.attributes.length > 0 && (
+        {product?.attributes && product.attributes.length > 0 && (
           <div className="mb-6 p-4 bg-slate-50/50 rounded-xl border border-slate-100">
             {product.attributes.map((attr) => {
-              const name = attr.name;
+              if (!attr) return null;
+              const name = attr.name || "";
               const isColor = name.toLowerCase() === "color" || attr.slug === "pa_color";
               const isSize = name.toLowerCase() === "size" || attr.slug === "pa_size";
 
@@ -322,7 +325,8 @@ export default function ProductDetailsClient({ product, variations, relatedProdu
                     </span>
                   </div>
                   <div className="flex flex-wrap gap-2.5">
-                    {attr.options.map((opt) => {
+                    {(attr.options || []).map((opt) => {
+                      if (!opt) return null;
                       const isSelected = selectedOpts[name] === opt;
                       if (isColor) {
                         return (
@@ -480,6 +484,7 @@ export default function ProductDetailsClient({ product, variations, relatedProdu
             <h2 className="text-lg font-bold text-slate-950 mb-4">Related Products</h2>
             <div className="grid grid-cols-2 md:grid-cols-4 gap-4">
               {relatedProducts.map((p) => {
+                if (!p) return null;
                 const discount = p.regularPrice > p.price
                   ? Math.round(((p.regularPrice - p.price) / p.regularPrice) * 100)
                   : 0;
@@ -490,14 +495,20 @@ export default function ProductDetailsClient({ product, variations, relatedProdu
                     className="group flex flex-col bg-white border border-slate-100 rounded-xl p-3 hover:shadow-md transition-shadow"
                   >
                     <div className="relative w-full aspect-square bg-slate-50 rounded-lg overflow-hidden mb-3">
-                      <Image
-                        src={p.image}
-                        alt={p.name}
-                        fill
-                        className="object-contain p-2 mix-blend-multiply group-hover:scale-105 transition-transform"
-                        sizes="(max-width: 768px) 50vw, 20vw"
-                        loading="lazy"
-                      />
+                      {p.image ? (
+                        <Image
+                          src={p.image}
+                          alt={p.name || "Product Image"}
+                          fill
+                          className="object-contain p-2 mix-blend-multiply group-hover:scale-105 transition-transform"
+                          sizes="(max-width: 768px) 50vw, 20vw"
+                          loading="lazy"
+                        />
+                      ) : (
+                        <div className="w-full h-full flex items-center justify-center text-slate-300 text-[10px]">
+                          No Image
+                        </div>
+                      )}
                       {discount > 0 && (
                         <span className="absolute top-2 left-2 bg-red-500 text-white text-[10px] font-extrabold px-1.5 py-0.5 rounded">
                           {discount}% OFF
@@ -509,15 +520,15 @@ export default function ProductDetailsClient({ product, variations, relatedProdu
                       {p.name}
                     </h3>
                     <div className="flex items-center gap-1.5 mt-auto">
-                      <span className="text-sm font-extrabold text-slate-950">${p.price.toFixed(2)}</span>
+                      <span className="text-sm font-extrabold text-slate-950">${Number(p.price || 0).toFixed(2)}</span>
                       {discount > 0 && (
-                        <span className="text-[10px] text-slate-400 line-through">${p.regularPrice.toFixed(2)}</span>
+                        <span className="text-[10px] text-slate-400 line-through">${Number(p.regularPrice || 0).toFixed(2)}</span>
                       )}
                     </div>
-                    {p.rating > 0 && (
+                    {Number(p.rating || 0) > 0 && (
                       <div className="flex items-center gap-1 mt-1">
                         <span className="text-[10px] bg-emerald-600 text-white font-bold px-1 py-0.25 rounded flex items-center gap-0.5">
-                          {p.rating.toFixed(1)} <Star className="w-2 h-2 fill-white text-white" />
+                          {Number(p.rating || 0).toFixed(1)} <Star className="w-2 h-2 fill-white text-white" />
                         </span>
                       </div>
                     )}

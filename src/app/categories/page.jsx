@@ -5,6 +5,7 @@
 
 'use client';
 
+import { Suspense } from 'react'; // Added for Suspense boundary
 import { motion } from 'framer-motion';
 import Link from 'next/link';
 import { ArrowRight, Shirt, Watch, Footprints, Gem, Scissors, Briefcase } from 'lucide-react';
@@ -18,7 +19,8 @@ const categories = [
   { name: 'Knitwear', description: 'Premium merino, cashmere, and wool.', icon: Gem, count: 18, gradient: 'from-indigo-600 to-blue-500', shadow: 'shadow-indigo-500/20' },
 ];
 
-export default function CategoriesPage() {
+// 1. Extracted content into a separate component function
+function CategoriesContent() {
   return (
     <div className="container mx-auto px-6 py-12">
       <motion.div initial={{ opacity: 0, y: 20 }} animate={{ opacity: 1, y: 0 }} className="text-center mb-16">
@@ -65,5 +67,14 @@ export default function CategoriesPage() {
         </Link>
       </motion.div>
     </div>
+  );
+}
+
+// 2. Default export wraps the layout content in a Suspense component
+export default function CategoriesPage() {
+  return (
+    <Suspense fallback={<div className="text-center py-24 text-textMuted">Loading collections...</div>}>
+      <CategoriesContent />
+    </Suspense>
   );
 }
