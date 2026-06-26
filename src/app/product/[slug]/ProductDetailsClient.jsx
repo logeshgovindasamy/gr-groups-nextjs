@@ -206,11 +206,11 @@ export default function ProductDetailsClient({ product, variations, relatedProdu
   };
 
   return (
-    <div className="grid grid-cols-1 lg:grid-cols-12 gap-8 bg-white p-4 md:p-6 rounded-2xl border border-slate-100 shadow-sm">
+    <div className="grid grid-cols-1 lg:grid-cols-12 gap-8 glass-panel bg-white/70 p-4 md:p-6 rounded-2xl border border-[#eae8e4]/60 shadow-luxury">
       {/* LEFT COLUMN: Gallery */}
       <div className="lg:col-span-5 flex flex-col gap-4">
         {/* Main High-Res Viewer */}
-        <div className="relative w-full aspect-square bg-slate-50 border border-slate-100 rounded-xl overflow-hidden group">
+        <div className="relative w-full aspect-square bg-white border border-[#eae8e4]/60 rounded-xl overflow-hidden group">
           {product.images && product.images.length > 0 ? (
             <Image
               src={product.images[activeImageIndex]}
@@ -221,7 +221,7 @@ export default function ProductDetailsClient({ product, variations, relatedProdu
               sizes="(max-width: 1024px) 100vw, 40vw"
             />
           ) : (
-            <div className="w-full h-full flex items-center justify-center text-slate-400 text-sm">
+            <div className="w-full h-full flex items-center justify-center text-[#6a7571] text-sm">
               No Product Image
             </div>
           )}
@@ -239,10 +239,10 @@ export default function ProductDetailsClient({ product, variations, relatedProdu
               <button
                 key={idx}
                 onClick={() => setActiveImageIndex(idx)}
-                className={`relative w-20 h-20 bg-slate-50 border rounded-lg overflow-hidden flex-shrink-0 transition-all ${
+                className={`relative w-20 h-20 bg-white border rounded-lg overflow-hidden flex-shrink-0 transition-all ${
                   idx === activeImageIndex 
-                    ? "border-blue-600 ring-2 ring-blue-100" 
-                    : "border-slate-200 hover:border-slate-400"
+                    ? "border-[#b89d70] ring-2 ring-[#b89d70]/20" 
+                    : "border-[#eae8e4] hover:border-[#b89d70]/40"
                 }`}
               >
                 <Image
@@ -263,37 +263,37 @@ export default function ProductDetailsClient({ product, variations, relatedProdu
         {/* Brand & Name */}
         <div className="mb-4">
           {product.brand && (
-            <span className="text-sm font-semibold text-blue-600 uppercase tracking-wide">
+            <span className="text-sm font-semibold text-[#b89d70] uppercase tracking-wide font-serif">
               {product.brand}
             </span>
           )}
-          <h1 className="text-xl md:text-2xl lg:text-3xl font-bold text-slate-900 mt-1">
+          <h1 className="text-xl md:text-2xl lg:text-3xl font-bold text-[#123026] font-serif mt-1">
             {product.name}
           </h1>
           
           {/* Rating & Reviews Summarized */}
           <div className="flex items-center gap-2 mt-2">
-            <div className="flex items-center bg-emerald-600 text-white text-xs font-bold px-2 py-0.5 rounded-md gap-0.5">
+            <div className="flex items-center bg-[#123026]/10 text-[#123026] border border-[#123026]/20 text-xs font-bold px-2 py-0.5 rounded-md gap-0.5">
               <span>{Number(product?.rating || 0).toFixed(1)}</span>
-              <Star className="w-3 h-3 fill-white text-white" />
+              <Star className="w-3 h-3 fill-[#123026] text-[#123026]" />
             </div>
-            <span className="text-sm text-slate-500 font-medium">
+            <span className="text-sm text-[#6a7571] font-medium">
               {product?.numReviews || 0} Ratings & {reviews.length} Reviews
             </span>
           </div>
         </div>
 
-        <hr className="border-slate-100 my-4" />
+        <hr className="border-[#eae8e4]/60 my-4" />
 
         {/* Price Box */}
         <div className="mb-6">
           <div className="flex items-baseline gap-3">
-            <span className="text-3xl font-extrabold text-slate-900">
+            <span className="text-3xl font-extrabold text-[#123026]">
               ${Number(activePrice || 0).toFixed(2)}
             </span>
             {activeDiscount > 0 && (
               <>
-                <span className="text-base text-slate-400 line-through">
+                <span className="text-base text-[#6a7571]/60 line-through">
                   ${Number(activeRegPrice || 0).toFixed(2)}
                 </span>
                 <span className="text-sm font-semibold text-green-600">
@@ -307,20 +307,20 @@ export default function ProductDetailsClient({ product, variations, relatedProdu
 
         {/* Dynamic Attribute Selectors */}
         {product?.attributes && product.attributes.length > 0 && (
-          <div className="mb-6 p-4 bg-slate-50/50 rounded-xl border border-slate-100">
+          <div className="mb-6 p-4 bg-[#f4f2ee]/40 rounded-xl border border-[#eae8e4]/60">
             {product.attributes.map((attr) => {
               if (!attr) return null;
               const name = attr.name || "";
               const isColor = name.toLowerCase() === "color" || attr.slug === "pa_color";
               const isSize = name.toLowerCase() === "size" || attr.slug === "pa_size";
-
+ 
               return (
                 <div key={attr.id || name} className="mb-5 last:mb-0">
                   <div className="flex items-center justify-between mb-2">
-                    <span className="text-sm font-semibold text-slate-700 uppercase tracking-wider">
+                    <span className="text-sm font-semibold text-[#123026] uppercase tracking-wider">
                       Select {name}
                     </span>
-                    <span className="text-xs font-bold text-slate-900 bg-white px-2 py-1 border border-slate-100 rounded-md shadow-sm">
+                    <span className="text-xs font-bold text-[#123026] bg-white/50 px-2 py-1 border border-[#eae8e4] rounded-md shadow-xs">
                       {selectedOpts[name] || "None"}
                     </span>
                   </div>
@@ -335,7 +335,7 @@ export default function ProductDetailsClient({ product, variations, relatedProdu
                             onClick={() => handleOptChange(name, opt)}
                             className={`w-9 h-9 rounded-full border-2 flex items-center justify-center transition-all ${
                               isSelected
-                                ? "border-blue-600 scale-110 shadow-sm"
+                                ? "border-[#123026] scale-110 shadow-sm"
                                 : "border-transparent hover:scale-105"
                             }`}
                             title={opt}
@@ -351,8 +351,8 @@ export default function ProductDetailsClient({ product, variations, relatedProdu
                             onClick={() => handleOptChange(name, opt)}
                             className={`min-w-[44px] px-3.5 py-2 border rounded-lg text-sm font-bold transition-all ${
                               isSelected
-                                ? "border-blue-600 bg-blue-50 text-blue-600 shadow-sm"
-                                : "border-slate-300 bg-white text-slate-700 hover:bg-slate-50"
+                                ? "border-[#123026] bg-[#123026]/5 text-[#123026] shadow-xs"
+                                : "border-[#eae8e4] bg-white/50 text-[#123026]/80 hover:bg-[#123026]/5"
                             }`}
                             type="button"
                           >
@@ -367,8 +367,8 @@ export default function ProductDetailsClient({ product, variations, relatedProdu
                             onClick={() => handleOptChange(name, opt)}
                             className={`px-3 py-1.5 border rounded-full text-xs font-bold transition-all ${
                               isSelected
-                                ? "border-blue-600 bg-blue-50 text-blue-600 shadow-sm"
-                                : "border-slate-200 bg-white text-slate-600 hover:bg-slate-50"
+                                ? "border-[#123026] bg-[#123026]/5 text-[#123026] shadow-xs"
+                                : "border-[#eae8e4] bg-white/50 text-[#123026]/80 hover:bg-[#123026]/5"
                             }`}
                             type="button"
                           >
@@ -391,8 +391,8 @@ export default function ProductDetailsClient({ product, variations, relatedProdu
             disabled={isOutOfStock}
             className={`w-full py-4 rounded-xl font-bold flex items-center justify-center gap-2 border-2 transition-all ${
               isOutOfStock
-                ? "bg-slate-100 border-slate-200 text-slate-400 cursor-not-allowed"
-                : "bg-white border-blue-600 text-blue-600 hover:bg-blue-50 active:scale-[0.98]"
+                ? "bg-[#f4f2ee] border-[#eae8e4] text-[#6a7571] cursor-not-allowed"
+                : "bg-white border-[#123026] text-[#123026] hover:bg-[#123026]/5 active:scale-[0.98]"
             }`}
             type="button"
           >
@@ -403,20 +403,20 @@ export default function ProductDetailsClient({ product, variations, relatedProdu
             disabled={isOutOfStock}
             className={`w-full py-4 rounded-xl font-bold flex items-center justify-center gap-2 transition-all text-white ${
               isOutOfStock
-                ? "bg-slate-200 text-slate-400 cursor-not-allowed"
-                : "bg-orange-500 hover:bg-orange-600 active:scale-[0.98] shadow-md shadow-orange-100"
+                ? "bg-[#f4f2ee] text-[#6a7571] cursor-not-allowed"
+                : "bg-[#b89d70] hover:bg-[#c9b083] active:scale-[0.98] shadow-luxury"
             }`}
             type="button"
           >
             <Zap className="w-5 h-5 fill-white text-white" /> Buy Now
           </button>
         </div>
-
+ 
         {/* Description Section */}
         {product.description && (
           <div className="mb-8">
-            <h2 className="text-lg font-bold text-slate-950 mb-2">Product Description</h2>
-            <div className="text-sm text-slate-600 leading-relaxed pr-2">
+            <h2 className="text-lg font-bold text-[#123026] font-serif mb-2">Product Description</h2>
+            <div className="text-sm text-[#6a7571] leading-relaxed pr-2">
               {product.description}
             </div>
           </div>
@@ -424,22 +424,22 @@ export default function ProductDetailsClient({ product, variations, relatedProdu
 
         {/* Specifications Section */}
         <div className="mb-8">
-          <h2 className="text-lg font-bold text-slate-950 mb-3">Specifications</h2>
-          <div className="border border-slate-100 rounded-xl overflow-hidden shadow-sm">
+          <h2 className="text-lg font-bold text-[#123026] font-serif mb-3">Specifications</h2>
+          <div className="border border-[#eae8e4]/60 rounded-xl overflow-hidden shadow-xs">
             <table className="w-full text-sm text-left border-collapse">
               <tbody>
-                <tr className="border-b border-slate-100 hover:bg-slate-50/50">
-                  <td className="w-1/3 p-3 font-semibold text-slate-500 bg-slate-50/50">SKU</td>
-                  <td className="p-3 text-slate-800 font-medium">{product.sku || "N/A"}</td>
+                <tr className="border-b border-[#eae8e4]/60 hover:bg-[#f4f2ee]/30">
+                  <td className="w-1/3 p-3 font-semibold text-[#6a7571] bg-[#f4f2ee]/40">SKU</td>
+                  <td className="p-3 text-[#123026] font-medium">{product.sku || "N/A"}</td>
                 </tr>
-                <tr className="border-b border-slate-100 hover:bg-slate-50/50">
-                  <td className="w-1/3 p-3 font-semibold text-slate-500 bg-slate-50/50">Product Type</td>
-                  <td className="p-3 text-slate-800 font-medium capitalize">{product.type}</td>
+                <tr className="border-b border-[#eae8e4]/60 hover:bg-[#f4f2ee]/30">
+                  <td className="w-1/3 p-3 font-semibold text-[#6a7571] bg-[#f4f2ee]/40">Product Type</td>
+                  <td className="p-3 text-[#123026] font-medium capitalize">{product.type}</td>
                 </tr>
                 {product.attributes && product.attributes.map((attr) => (
-                  <tr key={attr.id || attr.name} className="border-b border-slate-100 last:border-0 hover:bg-slate-50/50">
-                    <td className="w-1/3 p-3 font-semibold text-slate-500 bg-slate-50/50">{attr.name}</td>
-                    <td className="p-3 text-slate-800 font-medium">
+                  <tr key={attr.id || attr.name} className="border-b border-[#eae8e4]/60 last:border-0 hover:bg-[#f4f2ee]/30">
+                    <td className="w-1/3 p-3 font-semibold text-[#6a7571] bg-[#f4f2ee]/40">{attr.name}</td>
+                    <td className="p-3 text-[#123026] font-medium">
                       {attr.options ? attr.options.join(", ") : "N/A"}
                     </td>
                   </tr>
@@ -448,31 +448,31 @@ export default function ProductDetailsClient({ product, variations, relatedProdu
             </table>
           </div>
         </div>
-
+ 
         {/* Reviews Section */}
         <div className="mb-8">
-          <h2 className="text-lg font-bold text-slate-950 mb-3">Customer Reviews</h2>
+          <h2 className="text-lg font-bold text-[#123026] font-serif mb-3">Customer Reviews</h2>
           {loadingReviews ? (
-            <div className="flex items-center gap-2 text-slate-500 text-sm py-4">
+            <div className="flex items-center gap-2 text-[#6a7571] text-sm py-4">
               <RefreshCw className="w-4 h-4 animate-spin" /> Loading reviews...
             </div>
           ) : reviews.length > 0 ? (
             <div className="space-y-4">
               {reviews.map((rev) => (
-                <div key={rev.id} className="p-4 bg-slate-50/50 rounded-xl border border-slate-100">
+                <div key={rev.id} className="p-4 bg-[#f4f2ee]/40 rounded-xl border border-[#eae8e4]/60">
                   <div className="flex items-center justify-between gap-2 mb-2">
-                    <span className="text-sm font-bold text-slate-800">{rev.reviewer}</span>
-                    <span className="text-xs text-slate-400">{new Date(rev.date).toLocaleDateString()}</span>
+                    <span className="text-sm font-bold text-[#123026]">{rev.reviewer}</span>
+                    <span className="text-xs text-[#6a7571]/60">{new Date(rev.date).toLocaleDateString()}</span>
                   </div>
                   <div className="flex items-center gap-1 mb-2">
                     {renderStars(rev.rating)}
                   </div>
-                  <p className="text-sm text-slate-600 leading-normal">{rev.review}</p>
+                  <p className="text-sm text-[#6a7571] leading-normal">{rev.review}</p>
                 </div>
               ))}
             </div>
           ) : (
-            <div className="text-sm text-slate-500 italic py-4 bg-slate-50/50 text-center rounded-xl border border-dashed border-slate-200">
+            <div className="text-sm text-[#6a7571] italic py-4 bg-[#f4f2ee]/40 text-center rounded-xl border border-dashed border-[#eae8e4]">
               No Reviews Yet
             </div>
           )}
@@ -481,7 +481,7 @@ export default function ProductDetailsClient({ product, variations, relatedProdu
         {/* Related Products Section */}
         {relatedProducts && relatedProducts.length > 0 && (
           <div>
-            <h2 className="text-lg font-bold text-slate-950 mb-4">Related Products</h2>
+            <h2 className="text-lg font-bold text-[#123026] font-serif mb-4">Related Products</h2>
             <div className="grid grid-cols-2 md:grid-cols-4 gap-4">
               {relatedProducts.map((p) => {
                 if (!p) return null;
@@ -492,9 +492,9 @@ export default function ProductDetailsClient({ product, variations, relatedProdu
                   <Link
                     href={`/product/${p.slug}`}
                     key={p.id}
-                    className="group flex flex-col bg-white border border-slate-100 rounded-xl p-3 hover:shadow-md transition-shadow"
+                    className="product-card group flex flex-col p-3 hover:-translate-y-1 transition-all duration-300"
                   >
-                    <div className="relative w-full aspect-square bg-slate-50 rounded-lg overflow-hidden mb-3">
+                    <div className="relative w-full aspect-square bg-white border border-[#eae8e4]/60 rounded-lg overflow-hidden mb-3">
                       {p.image ? (
                         <Image
                           src={p.image}
@@ -505,7 +505,7 @@ export default function ProductDetailsClient({ product, variations, relatedProdu
                           loading="lazy"
                         />
                       ) : (
-                        <div className="w-full h-full flex items-center justify-center text-slate-300 text-[10px]">
+                        <div className="w-full h-full flex items-center justify-center text-[#6a7571]/60 text-[10px]">
                           No Image
                         </div>
                       )}
@@ -515,20 +515,20 @@ export default function ProductDetailsClient({ product, variations, relatedProdu
                         </span>
                       )}
                     </div>
-                    <span className="text-[10px] text-slate-400 uppercase font-semibold block mb-0.5 truncate">{p.brand || "Brand"}</span>
-                    <h3 className="text-xs font-bold text-slate-800 group-hover:text-blue-600 transition-colors line-clamp-2 min-h-[32px] mb-2 leading-snug">
+                    <span className="text-[10px] text-[#6a7571] uppercase font-semibold block mb-0.5 truncate">{p.brand || "Brand"}</span>
+                    <h3 className="text-xs font-bold text-[#123026] font-serif group-hover:text-[#b89d70] transition-colors line-clamp-2 min-h-[32px] mb-2 leading-snug">
                       {p.name}
                     </h3>
                     <div className="flex items-center gap-1.5 mt-auto">
-                      <span className="text-sm font-extrabold text-slate-950">${Number(p.price || 0).toFixed(2)}</span>
+                      <span className="text-sm font-extrabold text-[#123026]">${Number(p.price || 0).toFixed(2)}</span>
                       {discount > 0 && (
-                        <span className="text-[10px] text-slate-400 line-through">${Number(p.regularPrice || 0).toFixed(2)}</span>
+                        <span className="text-[10px] text-[#6a7571]/60 line-through">${Number(p.regularPrice || 0).toFixed(2)}</span>
                       )}
                     </div>
                     {Number(p.rating || 0) > 0 && (
                       <div className="flex items-center gap-1 mt-1">
-                        <span className="text-[10px] bg-emerald-600 text-white font-bold px-1 py-0.25 rounded flex items-center gap-0.5">
-                          {Number(p.rating || 0).toFixed(1)} <Star className="w-2 h-2 fill-white text-white" />
+                        <span className="text-[10px] bg-[#123026]/10 text-[#123026] border border-[#123026]/20 font-bold px-1 py-0.25 rounded flex items-center gap-0.5">
+                          {Number(p.rating || 0).toFixed(1)} <Star className="w-2 h-2 fill-[#123026] text-[#123026]" />
                         </span>
                       </div>
                     )}
