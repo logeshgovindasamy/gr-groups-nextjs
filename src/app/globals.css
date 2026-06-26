@@ -4,39 +4,35 @@
 
 @layer base {
   body {
-    font-family: system-ui, -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Helvetica, Arial, sans-serif;
-    @apply bg-background text-textLight antialiased;
+    @apply bg-background text-textLight antialiased font-sans;
     line-height: 1.5;
   }
 
   h1, h2, h3, h4, h5, h6 {
-    font-family: system-ui, -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Helvetica, Arial, sans-serif;
     @apply text-primary tracking-tight font-medium;
   }
 
   ::selection {
-    @apply bg-blue-100 text-gray-900;
+    @apply bg-accent/20 text-primary;
   }
 }
 
 @layer components {
-  /* Modern Shopify Card */
+  /* Premium Glassmorphic Panel */
   .glass-panel {
-    @apply bg-surface border border-[#e1e3e5] rounded-xl shadow-sm p-6;
-    box-shadow: 0px 1px 0px rgba(0, 0, 0, 0.05);
+    @apply bg-white/70 backdrop-blur-xl border border-white/20 rounded-2xl shadow-luxury;
   }
 
-  /* Shopify Primary Button (Slate Black or Signature Green) */
+  /* Luxury Capsule Buttons */
   .btn-primary {
-    @apply bg-accent text-white px-4 py-2.5 rounded-lg font-semibold text-sm
-           transition-all duration-200 hover:bg-[#006e52] hover:shadow-sm
+    @apply bg-primary text-white px-6 py-3 rounded-full font-medium text-sm
+           transition-all duration-300 hover:bg-[#1b4335] hover:shadow-md hover:shadow-primary/10
            active:scale-[0.98] disabled:opacity-50 disabled:cursor-not-allowed;
   }
 
-  /* Shopify Secondary / Outline Button */
   .btn-outline {
-    @apply border border-[#babfc3] bg-white text-primary px-4 py-2.5 rounded-lg font-semibold text-sm
-           transition-all duration-200 hover:bg-[#f6f6f7] hover:border-[#8c9196]
+    @apply border border-primary/20 bg-white/60 text-primary px-6 py-3 rounded-full font-medium text-sm
+           transition-all duration-300 hover:bg-white hover:border-primary/40
            active:scale-[0.98];
   }
 
@@ -57,8 +53,8 @@
 
   /* Clean Product Card */
   .product-card {
-    @apply bg-surface border border-[#e1e3e5] rounded-xl p-4 flex flex-col gap-4 cursor-pointer
-           transition-all duration-300 hover:shadow-md hover:border-[#8c9196];
+    @apply bg-surface border border-[#eae8e4]/80 rounded-2xl p-4 flex flex-col gap-4 cursor-pointer
+           transition-all duration-500 hover:shadow-luxury hover:border-[#b89d70]/40;
   }
 
   /* Shopify Polaris Style Badges */
