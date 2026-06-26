@@ -83,25 +83,25 @@ export default async function ProductPage({ params, searchParams }) {
   }
 
   return (
-    <div className="bg-slate-50 min-h-screen pb-12">
+    <div className="bg-[#f5f3ef] min-h-screen pb-12 pt-28">
       <div className="max-w-7xl mx-auto px-4 py-4">
         {/* Dynamic Breadcrumbs */}
-        <nav className="text-sm text-slate-500 mb-6 flex items-center gap-2 overflow-x-auto whitespace-nowrap py-1">
-          <Link href="/" className="hover:text-blue-600 transition-colors">Home</Link>
+        <nav className="text-sm text-[#6a7571] mb-6 flex items-center gap-2 overflow-x-auto whitespace-nowrap py-1">
+          <Link href="/" className="hover:text-[#b89d70] transition-colors">Home</Link>
           <span>&gt;</span>
-          <Link href={`/products?category=${encodeURIComponent(product.category)}`} className="hover:text-blue-600 transition-colors capitalize">
+          <Link href={`/products?category=${encodeURIComponent(product.category)}`} className="hover:text-[#b89d70] transition-colors capitalize">
             {product.category}
           </Link>
           {product.brand && (
             <>
               <span>&gt;</span>
-              <Link href={`/products?brand=${encodeURIComponent(product.brand)}`} className="hover:text-blue-600 transition-colors">
+              <Link href={`/products?brand=${encodeURIComponent(product.brand)}`} className="hover:text-[#b89d70] transition-colors">
                 {product.brand}
               </Link>
             </>
           )}
           <span>&gt;</span>
-          <span className="text-slate-800 font-medium truncate max-w-[200px] md:max-w-xs">{product.name}</span>
+          <span className="text-[#123026] font-medium truncate max-w-[200px] md:max-w-xs">{product.name}</span>
         </nav>
 
         {/* Main Details Wrapper */}

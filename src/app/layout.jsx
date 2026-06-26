@@ -5,9 +5,21 @@
 
 import './globals.css';
 import { Suspense } from 'react';
+import { Cormorant_Garamond, Inter } from 'next/font/google';
 import Navbar from '@/components/layout/Navbar';
 import Footer from '@/components/layout/Footer';
 import ToastProvider from '@/components/ui/ToastProvider';
+
+const cormorant = Cormorant_Garamond({
+  subsets: ['latin'],
+  weight: ['300', '400', '500', '600', '700'],
+  variable: '--font-serif',
+});
+
+const inter = Inter({
+  subsets: ['latin'],
+  variable: '--font-sans',
+});
 
 export const metadata = {
   title: 'GR Groups | Luxury E-Commerce',
@@ -27,15 +39,16 @@ export const metadata = {
 
 export default async function RootLayout({ children }) {
   return (
-    <html lang="en">
-      <body className="min-h-screen flex flex-col">
+    <html lang="en" className={`${inter.variable} ${cormorant.variable}`}>
+      <body className="min-h-screen flex flex-col antialiased">
         <ToastProvider />
         <Suspense fallback={<div className="h-20 bg-background" />}>
           <Navbar />
         </Suspense>
-        <main className="flex-grow pt-20">{children}</main>
+        <main className="flex-grow pt-24 md:pt-28">{children}</main>
         <Footer />
       </body>
     </html>
   );
 }
+
