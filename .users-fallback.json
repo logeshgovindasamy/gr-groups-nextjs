@@ -11,7 +11,7 @@
     "createdAt": "2026-05-18T06:56:16.379Z",
     "resetOtp": null,
     "resetOtpExpiry": null,
-    "lastLoginAt": "2026-06-26T07:41:47.753Z"
+    "lastLoginAt": "2026-06-27T07:30:03.159Z"
   },
   {
     "pk": "USER",
@@ -33,7 +33,7 @@
     "role": "admin",
     "addresses": [],
     "createdAt": "2026-06-10T07:29:29.838Z",
-    "lastLoginAt": "2026-06-24T10:53:26.274Z"
+    "lastLoginAt": "2026-06-27T07:27:54.156Z"
   },
   {
     "id": "9af66758-843f-4e60-a00a-62c47b0c0a70",

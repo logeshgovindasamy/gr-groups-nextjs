@@ -1,7 +1,6 @@
 /**
  * About / Our Story Page
- * Migrated from: React About.jsx
- * Dynamic content loaded from settings API with admin inline edit floating button
+ * Redesigned for Luxury Storefront Theme
  */
 
 'use client';
@@ -115,9 +114,11 @@ export default function AboutPage() {
 
   if (loading) {
     return (
-      <div className="container mx-auto px-6 py-24 flex flex-col items-center justify-center min-h-[60vh] gap-4">
-        <Loader2 className="animate-spin text-accent" size={40} />
-        <p className="text-textMuted font-medium text-lg animate-pulse">Loading Our Story...</p>
+      <div className="bg-[#f5f3ef] min-h-screen pt-28 pb-16">
+        <div className="container mx-auto px-6 py-24 flex flex-col items-center justify-center min-h-[60vh] gap-4">
+          <Loader2 className="animate-spin text-[#b89d70]" size={40} />
+          <p className="text-[#6a7571] font-semibold text-lg animate-pulse">Loading Our Story...</p>
+        </div>
       </div>
     );
   }
@@ -133,127 +134,129 @@ export default function AboutPage() {
   } = storyData || DEFAULT_STORY;
 
   return (
-    <div className="container mx-auto px-6 py-12 relative">
-      
-      {/* Hero Section */}
-      <motion.div 
-        initial={{ opacity: 0, y: 20 }} 
-        animate={{ opacity: 1, y: 0 }} 
-        className="text-center mb-20 max-w-3xl mx-auto"
-      >
-        <span className="text-accent text-sm font-medium uppercase tracking-widest">{heroSubtitle}</span>
-        <h1 className="text-4xl md:text-6xl font-bold mt-4 mb-6 leading-tight">
-          {heroTitle.split(' ').map((word, idx) => {
-            if (word.toLowerCase().includes('luxury')) {
-              return (
-                <span key={idx} className="bg-clip-text text-transparent bg-gradient-to-r from-primary via-accent to-secondary">
-                  {word}{' '}
-                </span>
-              );
-            }
-            return word + ' ';
-          })}
-        </h1>
-        <p className="text-textMuted text-lg leading-relaxed">
-          {heroDescription}
-        </p>
-      </motion.div>
-
-      {/* Stats Section */}
-      <div className="grid grid-cols-2 md:grid-cols-4 gap-6 mb-20">
-        {(stats || []).map((stat, i) => {
-          const StatIcon = iconMap[stat.icon] || Heart;
-          return (
-            <motion.div
-              key={stat.label || i}
-              initial={{ opacity: 0, y: 20 }}
-              whileInView={{ opacity: 1, y: 0 }}
-              viewport={{ once: true }}
-              transition={{ delay: i * 0.1 }}
-              className="glass-panel rounded-2xl p-6 text-center hover:border-primary/30 transition-colors"
-            >
-              <div className="w-12 h-12 mx-auto mb-3 rounded-full bg-primary/10 flex items-center justify-center">
-                <StatIcon size={22} className="text-accent" />
-              </div>
-              <div className="text-3xl font-bold bg-clip-text text-transparent bg-gradient-to-r from-primary to-accent">
-                {stat.value}
-              </div>
-              <div className="text-textMuted text-sm mt-1">{stat.label}</div>
-            </motion.div>
-          );
-        })}
-      </div>
-
-      {/* Mission Section */}
-      <motion.div 
-        initial={{ opacity: 0 }} 
-        whileInView={{ opacity: 1 }} 
-        viewport={{ once: true }} 
-        className="glass-panel rounded-3xl p-10 md:p-16 mb-20 relative overflow-hidden"
-      >
-        <div className="absolute -top-20 -left-20 w-64 h-64 bg-primary/10 rounded-full blur-[80px]" />
-        <div className="absolute -bottom-20 -right-20 w-64 h-64 bg-accent/10 rounded-full blur-[80px]" />
-        <div className="relative z-10 max-w-2xl mx-auto text-center">
-          <h2 className="text-3xl font-bold mb-6">{missionTitle}</h2>
-          <p className="text-textMuted text-lg leading-relaxed">
-            {missionDescription}
-          </p>
-        </div>
-      </motion.div>
-
-      {/* Journey Timeline Section */}
-      <div className="mb-20">
-        <h2 className="text-3xl font-bold text-center mb-12">Our Journey</h2>
-        <div className="max-w-2xl mx-auto space-y-8">
-          {(timeline || []).map((item, i) => (
-            <motion.div
-              key={item.year || i}
-              initial={{ opacity: 0, x: i % 2 === 0 ? -30 : 30 }}
-              whileInView={{ opacity: 1, x: 0 }}
-              viewport={{ once: true }}
-              className="flex gap-6"
-            >
-              <div className="flex-shrink-0 w-20 text-right">
-                <span className="text-xl font-bold bg-clip-text text-transparent bg-gradient-to-r from-primary to-accent">
-                  {item.year}
-                </span>
-              </div>
-              <div className="relative pl-6 border-l-2 border-white/10 pb-8">
-                <div className="absolute -left-[9px] top-1 w-4 h-4 rounded-full bg-gradient-to-r from-primary to-accent" />
-                <h3 className="font-semibold text-lg mb-1">{item.title}</h3>
-                <p className="text-textMuted text-sm leading-relaxed">{item.desc}</p>
-              </div>
-            </motion.div>
-          ))}
-        </div>
-      </div>
-
-      {/* CTA Section */}
-      <motion.div 
-        initial={{ opacity: 0, scale: 0.95 }} 
-        whileInView={{ opacity: 1, scale: 1 }} 
-        viewport={{ once: true }} 
-        className="text-center"
-      >
-        <h2 className="text-3xl font-bold mb-4">Ready to experience GR Groups?</h2>
-        <p className="text-textMuted mb-8">Join thousands of customers who've already elevated their style.</p>
-        <Link href="/products" className="btn-primary inline-flex items-center gap-2">
-          Start Shopping
-        </Link>
-      </motion.div>
-
-      {/* Floating Edit Story Button (Only visible to Admins) */}
-      {isAdmin && (
-        <Link 
-          href="/admin/story" 
-          className="fixed bottom-8 right-8 z-50 flex items-center gap-2 bg-gradient-to-r from-blue-600 to-indigo-600 hover:from-blue-700 hover:to-indigo-700 text-white font-bold px-6 py-3.5 rounded-full shadow-lg hover:shadow-xl transition-all duration-300 group scale-100 hover:scale-105 active:scale-95 animate-in fade-in slide-in-from-bottom-8"
-          title="Edit Our Story Content"
+    <div className="bg-[#f5f3ef] min-h-screen pt-28 pb-16">
+      <div className="container mx-auto px-6 py-12 relative">
+        
+        {/* Hero Section */}
+        <motion.div 
+          initial={{ opacity: 0, y: 20 }} 
+          animate={{ opacity: 1, y: 0 }} 
+          className="text-center mb-20 max-w-3xl mx-auto"
         >
-          <Edit size={18} className="group-hover:rotate-12 transition-transform duration-300" />
-          <span>Edit Story</span>
-        </Link>
-      )}
+          <span className="text-[#b89d70] text-sm font-bold uppercase tracking-widest">{heroSubtitle}</span>
+          <h1 className="text-4xl md:text-6xl font-bold font-serif text-[#123026] mt-4 mb-6 leading-tight">
+            {heroTitle.split(' ').map((word, idx) => {
+              if (word.toLowerCase().includes('luxury')) {
+                return (
+                  <span key={idx} className="text-[#b89d70] italic">
+                    {word}{' '}
+                  </span>
+                );
+              }
+              return word + ' ';
+            })}
+          </h1>
+          <p className="text-[#6a7571] text-lg leading-relaxed">
+            {heroDescription}
+          </p>
+        </motion.div>
 
+        {/* Stats Section */}
+        <div className="grid grid-cols-2 md:grid-cols-4 gap-6 mb-20">
+          {(stats || []).map((stat, i) => {
+            const StatIcon = iconMap[stat.icon] || Heart;
+            return (
+              <motion.div
+                key={stat.label || i}
+                initial={{ opacity: 0, y: 20 }}
+                whileInView={{ opacity: 1, y: 0 }}
+                viewport={{ once: true }}
+                transition={{ delay: i * 0.1 }}
+                className="glass-panel bg-white/70 border border-[#eae8e4]/60 rounded-2xl p-6 text-center hover:border-[#b89d70]/30 transition-all duration-300 shadow-luxury"
+              >
+                <div className="w-12 h-12 mx-auto mb-3 rounded-full bg-[#123026]/10 flex items-center justify-center">
+                  <StatIcon size={22} className="text-[#b89d70]" />
+                </div>
+                <div className="text-3xl font-bold font-serif text-[#123026] mb-1">
+                  {stat.value}
+                </div>
+                <div className="text-[#6a7571] text-sm font-semibold">{stat.label}</div>
+              </motion.div>
+            );
+          })}
+        </div>
+
+        {/* Mission Section */}
+        <motion.div 
+          initial={{ opacity: 0 }} 
+          whileInView={{ opacity: 1 }} 
+          viewport={{ once: true }} 
+          className="glass-panel bg-white/70 border border-[#eae8e4]/60 rounded-3xl p-10 md:p-16 mb-20 relative overflow-hidden shadow-luxury"
+        >
+          <div className="absolute -top-20 -left-20 w-64 h-64 bg-[#123026]/5 rounded-full blur-[80px]" />
+          <div className="absolute -bottom-20 -right-20 w-64 h-64 bg-[#b89d70]/5 rounded-full blur-[80px]" />
+          <div className="relative z-10 max-w-2xl mx-auto text-center">
+            <h2 className="text-3xl font-bold font-serif text-[#123026] mb-6">{missionTitle}</h2>
+            <p className="text-[#6a7571] text-lg leading-relaxed">
+              {missionDescription}
+            </p>
+          </div>
+        </motion.div>
+
+        {/* Journey Timeline Section */}
+        <div className="mb-20">
+          <h2 className="text-3xl font-bold font-serif text-[#123026] text-center mb-12">Our Journey</h2>
+          <div className="max-w-2xl mx-auto space-y-8">
+            {(timeline || []).map((item, i) => (
+              <motion.div
+                key={item.year || i}
+                initial={{ opacity: 0, x: i % 2 === 0 ? -30 : 30 }}
+                whileInView={{ opacity: 1, x: 0 }}
+                viewport={{ once: true }}
+                className="flex gap-6"
+              >
+                <div className="flex-shrink-0 w-20 text-right">
+                  <span className="text-xl font-bold font-serif text-[#b89d70]">
+                    {item.year}
+                  </span>
+                </div>
+                <div className="relative pl-6 border-l-2 border-[#eae8e4] pb-8">
+                  <div className="absolute -left-[9px] top-1.5 w-4 h-4 rounded-full bg-[#123026] border-2 border-[#f5f3ef]" />
+                  <h3 className="font-bold font-serif text-lg text-[#123026] mb-1">{item.title}</h3>
+                  <p className="text-[#6a7571] text-sm leading-relaxed">{item.desc}</p>
+                </div>
+              </motion.div>
+            ))}
+          </div>
+        </div>
+
+        {/* CTA Section */}
+        <motion.div 
+          initial={{ opacity: 0, scale: 0.95 }} 
+          whileInView={{ opacity: 1, scale: 1 }} 
+          viewport={{ once: true }} 
+          className="text-center"
+        >
+          <h2 className="text-3xl font-bold font-serif text-[#123026] mb-4">Ready to experience GR Groups?</h2>
+          <p className="text-[#6a7571] mb-8 font-semibold">Join thousands of customers who've already elevated their style.</p>
+          <Link href="/products" className="btn-primary inline-flex items-center gap-2 px-6 py-2.5">
+            Start Shopping
+          </Link>
+        </motion.div>
+
+        {/* Floating Edit Story Button (Only visible to Admins) */}
+        {isAdmin && (
+          <Link 
+            href="/admin/story" 
+            className="fixed bottom-8 right-8 z-50 flex items-center gap-2 bg-[#123026] hover:bg-[#1b4335] text-white font-bold px-6 py-3.5 rounded-full shadow-luxury hover:shadow-xl transition-all duration-300 group scale-100 hover:scale-105 active:scale-95 animate-in fade-in slide-in-from-bottom-8"
+            title="Edit Our Story Content"
+          >
+            <Edit size={18} className="group-hover:rotate-12 transition-transform duration-300" />
+            <span>Edit Story</span>
+          </Link>
+        )}
+
+      </div>
     </div>
   );
 }

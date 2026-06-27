@@ -8,7 +8,7 @@
 
 import { useState, useEffect } from 'react';
 import { motion } from 'framer-motion';
-import { ArrowRight, Star, Sparkles, Zap, Shield, ShoppingBag } from 'lucide-react';
+import { ArrowRight, Star, Sparkles, Zap, Shield, ShoppingBag, Award, Gem, Headphones } from 'lucide-react';
 import Link from 'next/link';
 import useCartStore from '@/store/useCartStore';
 import toast from 'react-hot-toast';
@@ -33,9 +33,10 @@ export default function HomePage() {
 
   // Feature cards — static branding text
   const features = [
-    { icon: Sparkles, title: 'Curated Selection',  desc: '10,000+ premium items from 50+ global brands' },
-    { icon: Zap,      title: 'Express Delivery',   desc: 'Free next-day shipping on orders over $100' },
-    { icon: Shield,   title: 'Authenticated',      desc: 'Every item verified for authenticity guaranteed' },
+    { icon: Award,      title: 'Premium Quality',  desc: 'Handpicked products of uncompromising quality.' },
+    { icon: Gem,        title: 'Timeless Design',  desc: 'Elegance that transcends trends and time.' },
+    { icon: Shield,     title: 'Secure Shopping',  desc: 'Advanced security for a worry-free experience.' },
+    { icon: Headphones, title: 'Dedicated Support',desc: 'We\'re here to help, whenever you need us.' },
   ];
 
   // Fetch WordPress page content for hero
@@ -107,103 +108,131 @@ export default function HomePage() {
   };
 
   return (
-    <div className="w-full">
+    <div className="w-full min-h-screen bg-background text-[#123026]">
       {/* Hero Section */}
-      <section className="relative min-h-[90vh] md:h-[90vh] flex items-center pt-32 pb-20 md:py-0 overflow-hidden">
-        {/* Animated background orbs */}
-        <div className="absolute top-1/4 left-1/4 w-96 h-96 bg-primary/20 rounded-full blur-[120px] -z-10 animate-pulse" />
-        <div className="absolute bottom-1/4 right-1/4 w-96 h-96 bg-secondary/20 rounded-full blur-[120px] -z-10 animate-pulse" style={{ animationDelay: '1s' }} />
-        <div className="absolute top-1/2 left-1/2 w-64 h-64 bg-accent/10 rounded-full blur-[100px] -z-10 animate-pulse" style={{ animationDelay: '2s' }} />
+      <section className="relative min-h-[85vh] md:min-h-[90vh] flex items-center pt-28 pb-16 md:py-0 overflow-hidden bg-transparent">
+        {/* Ambient Glowing Orbs */}
+        <div className="absolute top-10 left-10 w-[450px] h-[450px] bg-[#b89d70]/8 rounded-full blur-[120px] -z-10 animate-pulse-slow" />
+        <div className="absolute bottom-10 right-10 w-[550px] h-[550px] bg-[#123026]/6 rounded-full blur-[140px] -z-10 animate-pulse-slow" style={{ animationDelay: '2s' }} />
 
-        <div className="container mx-auto px-6 grid md:grid-cols-2 gap-12 items-center">
+
+
+        <div className="container mx-auto px-6 grid md:grid-cols-2 gap-12 items-center z-10">
+          {/* Hero Left Content */}
           <motion.div
-            initial={{ opacity: 0, x: -50 }}
-            animate={{ opacity: 1, x: 0 }}
-            transition={{ duration: 0.8 }}
-            className="flex flex-col gap-6 z-10"
+            initial={{ opacity: 0, y: 30 }}
+            animate={{ opacity: 1, y: 0 }}
+            transition={{ duration: 1, ease: [0.16, 1, 0.3, 1] }}
+            className="flex flex-col gap-6"
           >
-            <span className="text-accent font-medium tracking-wider uppercase text-sm flex items-center gap-2">
-              <Sparkles size={16} /> {hero.badge}
-            </span>
-            <h1 className="text-5xl md:text-7xl font-medium tracking-tight leading-[1.1]">
-              <span className="bg-clip-text text-transparent bg-gradient-to-r from-primary via-accent to-secondary">
-                {hero.title}
-              </span>
+            <div className="flex items-center gap-2 px-3 py-1.5 rounded-full bg-[#f4f2ee] border border-[#e5dec9] text-[#a4865d] text-[10px] md:text-xs font-bold tracking-widest uppercase w-fit">
+              <span className="text-[#b89d70] text-sm leading-none mt-[-2px]">✦</span> {hero.badge}
+            </div>
+            
+            <h1 className="text-4xl sm:text-5xl md:text-7xl font-light tracking-tight leading-[1.1] text-[#123026] font-serif">
+              Redefining <br className="hidden md:block" />
+              <span className="italic font-normal text-[#123026]/95">Luxury</span> Aesthetics
             </h1>
-            <p className="text-lg text-textMuted max-w-md leading-relaxed">
+
+            {/* Gold Horizontal Line */}
+            <div className="h-[2px] w-24 bg-[#b89d70] my-2" />
+            
+            <p className="text-sm md:text-base text-[#6a7571] max-w-md leading-relaxed font-sans font-light">
               {hero.subtitle}
             </p>
-            <div className="flex gap-4 mt-4">
-              <Link href="/categories" className="btn-primary flex items-center gap-2 w-fit">
-                {hero.exploreBtn} <ArrowRight size={18} />
+            
+            <div className="flex items-center gap-4 mt-4">
+              <Link href="/categories" className="group btn-primary flex items-center gap-2 px-8 py-3.5 rounded-full text-xs font-bold uppercase tracking-wider transition-all duration-300">
+                {hero.exploreBtn} <ArrowRight size={14} className="transition-transform group-hover:translate-x-1" />
               </Link>
-              <Link href="/products" className="btn-outline">
+              <Link href="/products" className="btn-outline px-8 py-3.5 rounded-full text-xs font-bold uppercase tracking-wider transition-all duration-300">
                 {hero.trendsBtn}
               </Link>
             </div>
           </motion.div>
 
-          <motion.div
-            initial={{ opacity: 0, scale: 0.9 }}
-            animate={{ opacity: 1, scale: 1 }}
-            transition={{ duration: 0.8, delay: 0.2 }}
-            className="relative h-[500px] w-full rounded-2xl overflow-hidden glass-panel flex items-center justify-center group cursor-pointer"
-          >
-            {/* Animated gradient background mesh */}
-            <div className="absolute inset-0 bg-gradient-to-tr from-primary/5 via-accent/5 to-surface opacity-95 transition-all duration-700 group-hover:scale-105" />
-            <div className="absolute inset-0 bg-radial-gradient from-accent/5 to-transparent blur-2xl opacity-40 group-hover:opacity-60 transition-opacity" />
+          {/* Hero Right Visuals */}
+          <div className="relative w-full flex items-center justify-center">
 
-            <div className="z-10 text-center px-8">
-              {/* Spinning / Glowing Logo Container */}
-              <div className="w-44 h-44 mx-auto rounded-full border border-white/20 flex items-center justify-center backdrop-blur-xl mb-8 relative group-hover:scale-105 group-hover:border-accent/40 transition-all duration-500 shadow-2xl">
-                {/* Outer spin rings */}
-                <div className="absolute inset-0 rounded-full bg-gradient-to-tr from-primary via-accent to-secondary opacity-15 animate-spin" style={{ animationDuration: '12s' }} />
-                <div className="absolute inset-2 rounded-full border border-dashed border-accent/20 animate-spin" style={{ animationDuration: '20s', animationDirection: 'reverse' }} />
-                
-                {/* Inner glowing core */}
-                <div className="w-32 h-32 rounded-full bg-gradient-to-tr from-primary to-accent flex items-center justify-center shadow-lg relative overflow-hidden group-hover:rotate-12 transition-transform duration-500">
-                  {/* Subtle inner reflection */}
-                  <div className="absolute inset-0 bg-gradient-to-b from-white/20 to-transparent pointer-events-none" />
-                  <ShoppingBag size={48} className="text-white drop-shadow-[0_4px_12px_rgba(255,255,255,0.4)] animate-pulse" />
+
+            {/* The Card */}
+            <motion.div
+              initial={{ opacity: 0, scale: 0.96, y: 35 }}
+              animate={{ opacity: 1, scale: 1, y: 0 }}
+              transition={{ duration: 1.2, ease: [0.16, 1, 0.3, 1], delay: 0.15 }}
+              className="relative h-[480px] md:h-[520px] w-full rounded-[32px] overflow-hidden border border-white/50 shadow-luxury bg-white/20 backdrop-blur-xl flex flex-col justify-between p-12 group cursor-pointer"
+            >
+              {/* Soft wave patterns inside the card */}
+              <div className="absolute inset-0 bg-gradient-to-tr from-[#123026]/5 via-[#b89d70]/4 to-white/10 -z-10" />
+              <svg className="absolute inset-0 w-full h-full text-[#123026]/4 pointer-events-none -z-10" viewBox="0 0 400 500" fill="none" xmlns="http://www.w3.org/2000/svg">
+                <path d="M-50,320 C80,290 120,440 270,390 C370,360 410,470 500,430" stroke="currentColor" strokeWidth="1.5" />
+                <path d="M-50,270 C60,230 160,390 260,340 C360,300 400,430 500,390" stroke="currentColor" strokeWidth="1.0" strokeDasharray="3 3" />
+              </svg>
+
+
+
+              {/* Central Branding Medallion */}
+              <div className="m-auto flex flex-col items-center text-center z-10 select-none">
+                {/* Outer Translucent Ring */}
+                <div className="w-44 h-44 md:w-48 md:h-48 rounded-full bg-white/35 border border-white/30 backdrop-blur-md flex items-center justify-center shadow-xl mb-6 relative animate-float">
+                  {/* Inner Green/Gold Medallion */}
+                  <div className="w-28 h-28 md:w-32 md:h-32 rounded-full bg-[#123026] border-[2.5px] border-[#b89d70] flex items-center justify-center shadow-2xl relative transition-transform duration-500 hover:scale-105">
+                    <ShoppingBag size={36} className="text-[#b89d70] stroke-[1.2]" />
+                  </div>
                 </div>
+
+                {/* Typography */}
+                <h3 className="text-xl md:text-2xl font-light tracking-[0.25em] text-[#123026] uppercase">
+                  GR GROUPS
+                </h3>
+                <div className="h-[1.5px] w-12 bg-[#b89d70]/40 my-3" />
+                <p className="text-[9px] font-bold tracking-[0.2em] text-[#6a7571] uppercase">
+                  {hero.luxuryTag}
+                </p>
+                <p className="text-[10px] font-bold tracking-[0.15em] text-[#123026] mt-4 uppercase border border-[#123026]/10 px-4 py-1.5 rounded-full bg-white/40 shadow-sm backdrop-blur-md">
+                  {hero.eleganceTag}
+                </p>
               </div>
 
-              {/* Brand Typography */}
-              <h3 className="text-3xl font-light tracking-[0.25em] text-primary transition-colors duration-300 group-hover:text-accent">
-                GR GROUPS
-              </h3>
-              <div className="h-px w-20 bg-gradient-to-r from-transparent via-accent/40 to-transparent mx-auto my-4" />
-              <p className="text-textMuted tracking-widest uppercase text-[10px]">
-                {hero.luxuryTag}
-              </p>
-              <p className="text-secondary font-medium tracking-[0.1em] text-xs mt-4 uppercase bg-white/5 border border-white/10 px-4 py-1.5 rounded-full inline-block backdrop-blur-md">
-                {hero.eleganceTag}
-              </p>
-            </div>
-          </motion.div>
+              {/* 3D Pedestal in the Card bottom */}
+              <div className="absolute bottom-0 left-1/2 -translate-x-1/2 w-[80%] h-20 flex flex-col justify-end z-10 pointer-events-none">
+                {/* Cylinder Top Face (elliptical shape) */}
+                <div className="w-full h-8 bg-gradient-to-r from-[#faf9f6] via-white to-[#f0efe9] border border-[#b89d70]/50 rounded-[100%/32px] shadow-sm relative flex items-center justify-center">
+                  {/* Gold Inner Circle rim */}
+                  <div className="absolute inset-[3px] border border-[#b89d70]/30 rounded-[100%/30px]" />
+                </div>
+                {/* Cylinder Body */}
+                <div className="w-full h-12 bg-gradient-to-b from-white via-[#f3f2eb] to-[#e6e5dd] border-x border-b border-[#b89d70]/20 rounded-b-[40%] shadow-[0_15px_35px_rgba(18,48,38,0.06)] relative overflow-hidden">
+                  {/* Marble Texture overlay */}
+                  <div className="absolute inset-0 opacity-[0.03] mix-blend-overlay bg-[url('https://www.transparenttextures.com/patterns/white-marble.png')]" />
+                </div>
+              </div>
+            </motion.div>
+          </div>
         </div>
       </section>
 
       {/* Features Section */}
-      <section className="py-16 container mx-auto px-6">
-        <div className="grid grid-cols-1 md:grid-cols-3 gap-6">
+      <section className="py-12 container mx-auto px-6 relative z-20">
+        <motion.div
+          initial={{ opacity: 0, y: 30 }}
+          whileInView={{ opacity: 1, y: 0 }}
+          viewport={{ once: true }}
+          transition={{ duration: 0.8, delay: 0.15 }}
+          className="glass-panel rounded-[28px] p-6 md:p-8 bg-white/70 border border-[#eae8e4]/60 shadow-luxury max-w-7xl mx-auto grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-6 md:gap-8"
+        >
           {features.map((feature, i) => (
-            <motion.div
-              key={i}
-              initial={{ opacity: 0, y: 20 }}
-              whileInView={{ opacity: 1, y: 0 }}
-              viewport={{ once: true }}
-              transition={{ delay: i * 0.15 }}
-              className="glass-panel rounded-2xl p-6 text-center hover:border-primary/30 transition-colors"
-            >
-              <div className="w-12 h-12 mx-auto mb-4 rounded-full bg-primary/10 flex items-center justify-center">
-                <feature.icon size={22} className="text-accent" />
+            <div key={i} className="flex items-center gap-4 text-left border-b border-[#eae8e4]/40 last:border-b-0 pb-5 last:pb-0 lg:pb-0 lg:border-b-0 lg:border-r border-[#eae8e4]/40 lg:last:border-r-0 lg:px-4 lg:first:pl-0 lg:last:pr-0">
+              <div className="w-12 h-12 rounded-full bg-[#f4f2ee] border border-[#e5dec9]/20 flex items-center justify-center text-[#123026] flex-shrink-0 shadow-sm">
+                <feature.icon size={20} className="stroke-[1.5]" />
               </div>
-              <h3 className="font-semibold text-lg mb-2">{feature.title}</h3>
-              <p className="text-textMuted text-sm">{feature.desc}</p>
-            </motion.div>
+              <div className="flex flex-col">
+                <h4 className="font-semibold text-sm text-[#123026] font-sans">{feature.title}</h4>
+                <p className="text-xs text-[#6a7571] mt-0.5 leading-snug font-sans font-light">{feature.desc}</p>
+              </div>
+            </div>
           ))}
-        </div>
+        </motion.div>
       </section>
 
       {/* Trending Section */}
@@ -278,10 +307,10 @@ export default function HomePage() {
                       </div>
                     </>
                   )}
-                  <div className="absolute inset-0 bg-gradient-to-t from-background/80 to-transparent opacity-0 group-hover:opacity-100 transition-opacity duration-300 flex items-end p-4">
+                  <div className="absolute inset-0 bg-[#123026]/75 opacity-0 group-hover:opacity-100 transition-opacity duration-300 flex items-end p-4">
                     <button
                       onClick={() => addToCartHandler(product)}
-                      className="w-full bg-white text-black py-2.5 rounded-lg font-medium hover:bg-gray-200 transition-colors"
+                      className="w-full bg-white text-[#123026] py-2 rounded-full text-xs font-bold uppercase tracking-wider hover:bg-[#b89d70] hover:text-white transition-colors duration-300"
                     >
                       {hero.quickAdd}
                     </button>

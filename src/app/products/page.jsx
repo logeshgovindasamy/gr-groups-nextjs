@@ -269,26 +269,26 @@ function ProductsContent() {
   };
 
   return (
-    <div className="bg-slate-50 min-h-screen">
+    <div className="bg-background min-h-screen">
       {/* Top Navbar Header */}
-      <div className="bg-white border-b border-slate-100 sticky top-0 z-20 px-4 py-3 shadow-xs">
+      <div className="bg-white/50 backdrop-blur-md border-b border-[#eae8e4]/60 sticky top-0 z-20 px-4 py-3 shadow-xs">
         <div className="max-w-7xl mx-auto flex flex-col md:flex-row md:items-center justify-between gap-3">
           <div className="flex items-center gap-4">
-            <h1 className="text-xl font-black tracking-tight text-slate-900">CATALOG</h1>
-            <span className="text-xs text-slate-500 font-bold bg-slate-100 px-2 py-0.5 rounded-full">
+            <h1 className="text-xl font-bold tracking-tight text-[#123026] font-serif uppercase">CATALOG</h1>
+            <span className="text-xs text-[#6a7571] font-bold bg-[#f4f2ee] px-2 py-0.5 rounded-full">
               {totalProducts} Products Found
             </span>
           </div>
 
           {/* Search Box */}
           <div className="relative w-full md:w-80">
-            <Search className="w-4 h-4 text-slate-400 absolute left-3 top-1/2 -translate-y-1/2" />
+            <Search className="w-4 h-4 text-[#6a7571]/60 absolute left-3 top-1/2 -translate-y-1/2" />
             <input
               type="text"
               placeholder="Search products..."
               value={searchInput}
               onChange={(e) => setSearchInput(e.target.value)}
-              className="w-full pl-9 pr-8 py-2 border border-slate-200 rounded-lg text-sm bg-slate-50 focus:bg-white focus:outline-none focus:ring-2 focus:ring-blue-500/20"
+              className="w-full pl-9 pr-8 py-2 border border-[#eae8e4] rounded-lg text-sm bg-white/40 focus:bg-white focus:outline-none focus:ring-2 focus:ring-[#b89d70]/20"
             />
             {searchInput && (
               <button
@@ -304,12 +304,12 @@ function ProductsContent() {
 
       <div className="max-w-7xl mx-auto px-4 py-6">
         <div className="grid grid-cols-1 lg:grid-cols-12 gap-8 items-start">
-          
+
           {/* DESKTOP FILTER SIDEBAR */}
-          <aside className="hidden lg:block lg:col-span-3 bg-white p-5 rounded-2xl border border-slate-100 sticky top-24 shadow-sm max-h-[85vh] overflow-y-auto scrollbar-thin">
+          <aside className="hidden lg:block lg:col-span-3 glass-panel bg-white/70 p-5 rounded-2xl border border-[#eae8e4]/60 sticky top-24 shadow-luxury max-h-[85vh] overflow-y-auto scrollbar-thin">
             <div className="flex items-center justify-between mb-5">
-              <span className="text-base font-extrabold text-slate-900 flex items-center gap-1.5">
-                <Filter className="w-4 h-4 text-blue-600" /> Filters
+              <span className="text-base font-extrabold text-[#123026] flex items-center gap-1.5 font-serif uppercase">
+                <Filter className="w-4 h-4 text-[#b89d70]" /> Filters
               </span>
               {activeFiltersCount > 0 && (
                 <button
@@ -321,17 +321,17 @@ function ProductsContent() {
               )}
             </div>
 
-            <hr className="border-slate-100 mb-5" />
+            <hr className="border-[#eae8e4]/60 mb-5" />
 
             {/* Availability Filter */}
             <div className="mb-5">
-              <span className="text-xs font-bold text-slate-400 uppercase tracking-wider block mb-3">Availability</span>
-              <label className="flex items-center gap-2 text-sm text-slate-700 font-semibold cursor-pointer">
+              <span className="text-xs font-bold text-[#6a7571] uppercase tracking-wider block mb-3">Availability</span>
+              <label className="flex items-center gap-2 text-sm text-[#123026]/90 font-semibold cursor-pointer">
                 <input
                   type="checkbox"
                   checked={currentAvailability === "instock"}
                   onChange={(e) => updateURLParams({ availability: e.target.checked ? "instock" : "" })}
-                  className="rounded text-blue-600 focus:ring-blue-500 border-slate-300 w-4 h-4"
+                  className="rounded text-[#123026] focus:ring-[#123026]/20 border-[#eae8e4] w-4 h-4"
                 />
                 Exclude Out of Stock
               </label>
@@ -340,15 +340,14 @@ function ProductsContent() {
             {/* Dynamic Categories Section */}
             {filterOptions.categories.length > 0 && (
               <div className="mb-6">
-                <span className="text-xs font-bold text-slate-400 uppercase tracking-wider block mb-3">Categories</span>
+                <span className="text-xs font-bold text-[#6a7571] uppercase tracking-wider block mb-3">Categories</span>
                 <div className="space-y-2 max-h-40 overflow-y-auto pr-1">
                   <button
                     onClick={() => updateURLParams({ category: "" })}
-                    className={`w-full text-left text-sm py-1 px-2.5 rounded-lg font-bold transition-all ${
-                      currentCategory === ""
-                        ? "bg-blue-50 text-blue-600"
-                        : "text-slate-600 hover:bg-slate-50"
-                    }`}
+                    className={`w-full text-left text-sm py-1 px-2.5 rounded-lg font-bold transition-all ${currentCategory === ""
+                      ? "bg-[#123026]/5 text-[#123026]"
+                      : "text-[#123026]/80 hover:bg-[#123026]/5"
+                      }`}
                   >
                     All Categories
                   </button>
@@ -358,11 +357,10 @@ function ProductsContent() {
                       <button
                         key={cat.id}
                         onClick={() => updateURLParams({ category: cat.name })}
-                        className={`w-full text-left text-sm py-1 px-2.5 rounded-lg font-bold transition-all ${
-                          isSelected
-                            ? "bg-blue-50 text-blue-600"
-                            : "text-slate-600 hover:bg-slate-50"
-                        }`}
+                        className={`w-full text-left text-sm py-1 px-2.5 rounded-lg font-bold transition-all ${isSelected
+                          ? "bg-[#123026]/5 text-[#123026]"
+                          : "text-[#123026]/80 hover:bg-[#123026]/5"
+                          }`}
                       >
                         {cat.name}
                       </button>
@@ -375,7 +373,7 @@ function ProductsContent() {
             {/* Dynamic Tags Section */}
             {filterOptions.tags && filterOptions.tags.length > 0 && (
               <div className="mb-6">
-                <span className="text-xs font-bold text-slate-400 uppercase tracking-wider block mb-3">Tags</span>
+                <span className="text-xs font-bold text-[#6a7571] uppercase tracking-wider block mb-3">Tags</span>
                 <div className="space-y-2 max-h-40 overflow-y-auto pr-1">
                   {filterOptions.tags.map((tag) => {
                     const isSelected = currentTags.some(t => t.toLowerCase() === tag.name.toLowerCase());
@@ -383,14 +381,13 @@ function ProductsContent() {
                       <button
                         key={tag.id}
                         onClick={() => handleTagToggle(tag.name)}
-                        className={`w-full text-left text-sm py-1 px-2.5 rounded-lg font-bold transition-all flex items-center justify-between ${
-                          isSelected
-                            ? "bg-blue-50 text-blue-600"
-                            : "text-slate-600 hover:bg-slate-50"
-                        }`}
+                        className={`w-full text-left text-sm py-1 px-2.5 rounded-lg font-bold transition-all flex items-center justify-between ${isSelected
+                          ? "bg-[#123026]/5 text-[#123026]"
+                          : "text-[#123026]/80 hover:bg-[#123026]/5"
+                          }`}
                       >
                         <span>{tag.name}</span>
-                        {isSelected && <Check className="w-3.5 h-3.5 text-blue-600" />}
+                        {isSelected && <Check className="w-3.5 h-3.5 text-[#123026]" />}
                       </button>
                     );
                   })}
@@ -401,16 +398,16 @@ function ProductsContent() {
             {/* Dynamic Brands Section */}
             {filterOptions.brands.length > 0 && (
               <div className="mb-6">
-                <span className="text-xs font-bold text-slate-400 uppercase tracking-wider block mb-3">Brands</span>
+                <span className="text-xs font-bold text-[#6a7571] uppercase tracking-wider block mb-3">Brands</span>
                 {filterOptions.brands.length > 5 && (
                   <div className="relative mb-3">
-                    <Search className="w-3.5 h-3.5 text-slate-400 absolute left-2.5 top-1/2 -translate-y-1/2" />
+                    <Search className="w-3.5 h-3.5 text-[#6a7571] absolute left-2.5 top-1/2 -translate-y-1/2" />
                     <input
                       type="text"
                       placeholder="Search brands..."
                       value={brandSearch}
                       onChange={(e) => setBrandSearch(e.target.value)}
-                      className="w-full pl-8 pr-3 py-1.5 border border-slate-200 rounded-md text-xs focus:outline-none"
+                      className="w-full pl-8 pr-3 py-1.5 border border-[#eae8e4] rounded-md text-xs focus:outline-none"
                     />
                   </div>
                 )}
@@ -418,19 +415,19 @@ function ProductsContent() {
                   {filteredBrandsList.map((brand) => {
                     const isChecked = currentBrands.includes(brand);
                     return (
-                      <label key={brand} className="flex items-center gap-2 text-sm text-slate-700 font-semibold cursor-pointer">
+                      <label key={brand} className="flex items-center gap-2 text-sm text-[#123026]/90 font-semibold cursor-pointer">
                         <input
                           type="checkbox"
                           checked={isChecked}
                           onChange={() => handleBrandToggle(brand)}
-                          className="rounded text-blue-600 focus:ring-blue-500 border-slate-300 w-4 h-4"
+                          className="rounded text-[#123026] focus:ring-[#123026]/20 border-[#eae8e4] w-4 h-4"
                         />
                         {brand}
                       </label>
                     );
                   })}
                   {filteredBrandsList.length === 0 && (
-                    <span className="text-xs text-slate-400 italic">No brands matched</span>
+                    <span className="text-xs text-[#6a7571] italic">No brands matched</span>
                   )}
                 </div>
               </div>
@@ -439,7 +436,7 @@ function ProductsContent() {
             {/* Dynamic Colors Section */}
             {filterOptions.colors.length > 0 && (
               <div className="mb-6">
-                <span className="text-xs font-bold text-slate-400 uppercase tracking-wider block mb-3">Colors</span>
+                <span className="text-xs font-bold text-[#6a7571] uppercase tracking-wider block mb-3">Colors</span>
                 <div className="flex flex-wrap gap-2">
                   {filterOptions.colors.map((color) => {
                     const isSelected = currentColors.includes(color);
@@ -447,11 +444,10 @@ function ProductsContent() {
                       <button
                         key={color}
                         onClick={() => handleColorToggle(color)}
-                        className={`w-7 h-7 rounded-full border-2 flex items-center justify-center transition-all ${
-                          isSelected
-                            ? "border-blue-600 scale-110 shadow-sm"
-                            : "border-transparent hover:scale-105"
-                        }`}
+                        className={`w-7 h-7 rounded-full border-2 flex items-center justify-center transition-all ${isSelected
+                          ? "border-[#123026] scale-110 shadow-sm"
+                          : "border-transparent hover:scale-105"
+                          }`}
                         title={color}
                         type="button"
                       >
@@ -465,14 +461,14 @@ function ProductsContent() {
 
             {/* Price Filter Section */}
             <div className="mb-6">
-              <span className="text-xs font-bold text-slate-400 uppercase tracking-wider block mb-3">Price Range</span>
+              <span className="text-xs font-bold text-[#6a7571] uppercase tracking-wider block mb-3">Price Range</span>
               <div className="flex items-center gap-2">
                 <input
                   type="number"
                   placeholder="Min Price"
                   value={minPriceInput}
                   onChange={(e) => setMinPriceInput(e.target.value)}
-                  className="w-full px-2 py-1.5 border border-slate-200 rounded-md text-sm focus:outline-none focus:ring-2 focus:ring-blue-500/20"
+                  className="w-full px-2 py-1.5 border border-[#eae8e4] rounded-md text-sm focus:outline-none focus:ring-2 focus:ring-[#b89d70]/20"
                 />
                 <span className="text-slate-400">-</span>
                 <input
@@ -480,24 +476,23 @@ function ProductsContent() {
                   placeholder="Max Price"
                   value={maxPriceInput}
                   onChange={(e) => setMaxPriceInput(e.target.value)}
-                  className="w-full px-2 py-1.5 border border-slate-200 rounded-md text-sm focus:outline-none focus:ring-2 focus:ring-blue-500/20"
+                  className="w-full px-2 py-1.5 border border-[#eae8e4] rounded-md text-sm focus:outline-none focus:ring-2 focus:ring-[#b89d70]/20"
                 />
               </div>
             </div>
 
             {/* Rating Filter Section */}
             <div>
-              <span className="text-xs font-bold text-slate-400 uppercase tracking-wider block mb-3">Ratings</span>
+              <span className="text-xs font-bold text-[#6a7571] uppercase tracking-wider block mb-3">Ratings</span>
               <div className="space-y-2">
                 {[4, 3].map((stars) => (
                   <button
                     key={stars}
                     onClick={() => updateURLParams({ rating: currentRating === String(stars) ? "" : String(stars) })}
-                    className={`w-full text-left text-sm py-1.5 px-2 rounded-lg font-bold flex items-center gap-1.5 transition-all ${
-                      currentRating === String(stars)
-                        ? "bg-blue-50 text-blue-600"
-                        : "text-slate-600 hover:bg-slate-50"
-                    }`}
+                    className={`w-full text-left text-sm py-1.5 px-2 rounded-lg font-bold flex items-center gap-1.5 transition-all ${currentRating === String(stars)
+                      ? "bg-[#123026]/5 text-[#123026]"
+                      : "text-[#123026]/80 hover:bg-[#123026]/5"
+                      }`}
                   >
                     <span>{stars}★ & Above</span>
                   </button>
@@ -508,19 +503,18 @@ function ProductsContent() {
 
           {/* MAIN PRODUCT LIST LAYER */}
           <main className="lg:col-span-9 flex flex-col gap-6">
-            
             {/* Header controls: Sort, Chips, Mobile filters trigger */}
-            <div className="bg-white p-4 rounded-2xl border border-slate-100 shadow-sm flex flex-col gap-4">
+            <div className="glass-panel bg-white/70 p-4 rounded-2xl border border-[#eae8e4]/60 shadow-luxury flex flex-col gap-4">
               <div className="flex items-center justify-between gap-3 flex-wrap">
                 {/* Mobile Filter buttons layout */}
                 <div className="flex items-center gap-2 lg:hidden w-full sm:w-auto">
                   <button
                     onClick={() => setShowMobileFilters(true)}
-                    className="flex-1 flex items-center justify-center gap-1.5 px-4 py-2.5 border border-slate-200 rounded-xl text-sm font-bold text-slate-700 bg-slate-50 hover:bg-slate-100"
+                    className="flex-1 flex items-center justify-center gap-1.5 px-4 py-2.5 border border-[#eae8e4] rounded-xl text-sm font-bold text-[#123026]/90 bg-[#f4f2ee]/50 hover:bg-[#f4f2ee]"
                   >
-                    <SlidersHorizontal className="w-4 h-4 text-slate-500" /> Filters
+                    <SlidersHorizontal className="w-4 h-4 text-[#6a7571]" /> Filters
                     {activeFiltersCount > 0 && (
-                      <span className="bg-blue-600 text-white rounded-full text-[10px] w-5 h-5 flex items-center justify-center font-bold">
+                      <span className="bg-[#123026] text-white rounded-full text-[10px] w-5 h-5 flex items-center justify-center font-bold">
                         {activeFiltersCount}
                       </span>
                     )}
@@ -529,13 +523,13 @@ function ProductsContent() {
 
                 {/* Desktop Sort dropdown */}
                 <div className="flex items-center gap-2 ml-auto w-full sm:w-auto justify-end">
-                  <span className="text-xs font-bold text-slate-400 flex items-center gap-1">
+                  <span className="text-xs font-bold text-[#6a7571] flex items-center gap-1">
                     <ArrowUpDown className="w-3.5 h-3.5" /> Sort By
                   </span>
                   <select
                     value={currentSort}
                     onChange={(e) => updateURLParams({ sort: e.target.value })}
-                    className="text-sm font-bold text-slate-700 border border-slate-200 rounded-lg px-2.5 py-1.5 focus:outline-none cursor-pointer hover:border-slate-300"
+                    className="text-sm font-bold text-[#123026] border border-[#eae8e4] rounded-lg px-2.5 py-1.5 focus:outline-none cursor-pointer hover:border-[#b89d70]/40 bg-white/50"
                   >
                     <option value="popularity">Popularity</option>
                     <option value="newest">Newest First</option>
@@ -549,32 +543,32 @@ function ProductsContent() {
               {/* Active Filter Chips */}
               {activeFiltersCount > 0 && (
                 <div className="flex flex-wrap gap-2 items-center">
-                  <span className="text-xs font-extrabold text-slate-400 mr-1">ACTIVE:</span>
-                  
+                  <span className="text-xs font-extrabold text-[#6a7571] mr-1">ACTIVE:</span>
+
                   {currentCategory && (() => {
                     const matchedCat = filterOptions.categories.find(c => c.name.toLowerCase() === currentCategory.toLowerCase());
                     const displayLabel = matchedCat ? matchedCat.name : currentCategory;
                     return (
-                      <span className="inline-flex items-center gap-1 px-2.5 py-1 bg-blue-50 text-blue-600 text-xs font-bold rounded-lg border border-blue-100">
+                      <span className="inline-flex items-center gap-1 px-2.5 py-1 bg-[#123026]/5 text-[#123026] text-xs font-bold rounded-lg border border-[#123026]/10">
                         Category: {displayLabel}
                         <button onClick={() => removeChip("category")}><X className="w-3 h-3 hover:scale-110" /></button>
                       </span>
                     );
                   })()}
                   {currentSearch && (
-                    <span className="inline-flex items-center gap-1 px-2.5 py-1 bg-blue-50 text-blue-600 text-xs font-bold rounded-lg border border-blue-100">
+                    <span className="inline-flex items-center gap-1 px-2.5 py-1 bg-[#123026]/5 text-[#123026] text-xs font-bold rounded-lg border border-[#123026]/10">
                       Search: {currentSearch}
                       <button onClick={() => removeChip("search")}><X className="w-3 h-3 hover:scale-110" /></button>
                     </span>
                   )}
                   {currentBrands.map((brand) => (
-                    <span key={brand} className="inline-flex items-center gap-1 px-2.5 py-1 bg-blue-50 text-blue-600 text-xs font-bold rounded-lg border border-blue-100">
+                    <span key={brand} className="inline-flex items-center gap-1 px-2.5 py-1 bg-[#123026]/5 text-[#123026] text-xs font-bold rounded-lg border border-[#123026]/10">
                       Brand: {brand}
                       <button onClick={() => removeChip("brand", brand)}><X className="w-3 h-3 hover:scale-110" /></button>
                     </span>
                   ))}
                   {currentColors.map((color) => (
-                    <span key={color} className="inline-flex items-center gap-1 px-2.5 py-1 bg-blue-50 text-blue-600 text-xs font-bold rounded-lg border border-blue-100">
+                    <span key={color} className="inline-flex items-center gap-1 px-2.5 py-1 bg-[#123026]/5 text-[#123026] text-xs font-bold rounded-lg border border-[#123026]/10">
                       Color: {color}
                       <button onClick={() => removeChip("color", color)}><X className="w-3 h-3 hover:scale-110" /></button>
                     </span>
@@ -583,32 +577,32 @@ function ProductsContent() {
                     const matchedTag = filterOptions.tags.find(t => t.name.toLowerCase() === tagCode.toLowerCase());
                     const displayLabel = matchedTag ? matchedTag.name : tagCode;
                     return (
-                      <span key={tagCode} className="inline-flex items-center gap-1 px-2.5 py-1 bg-blue-50 text-blue-600 text-xs font-bold rounded-lg border border-blue-100">
+                      <span key={tagCode} className="inline-flex items-center gap-1 px-2.5 py-1 bg-[#123026]/5 text-[#123026] text-xs font-bold rounded-lg border border-[#123026]/10">
                         Tag: {displayLabel}
                         <button onClick={() => removeChip("tag", tagCode)}><X className="w-3 h-3 hover:scale-110" /></button>
                       </span>
                     );
                   })}
                   {currentMinPrice && (
-                    <span className="inline-flex items-center gap-1 px-2.5 py-1 bg-blue-50 text-blue-600 text-xs font-bold rounded-lg border border-blue-100">
+                    <span className="inline-flex items-center gap-1 px-2.5 py-1 bg-[#123026]/5 text-[#123026] text-xs font-bold rounded-lg border border-[#123026]/10">
                       Min Price: ${currentMinPrice}
                       <button onClick={() => removeChip("minPrice")}><X className="w-3 h-3 hover:scale-110" /></button>
                     </span>
                   )}
                   {currentMaxPrice && (
-                    <span className="inline-flex items-center gap-1 px-2.5 py-1 bg-blue-50 text-blue-600 text-xs font-bold rounded-lg border border-blue-100">
+                    <span className="inline-flex items-center gap-1 px-2.5 py-1 bg-[#123026]/5 text-[#123026] text-xs font-bold rounded-lg border border-[#123026]/10">
                       Max Price: ${currentMaxPrice}
                       <button onClick={() => removeChip("maxPrice")}><X className="w-3 h-3 hover:scale-110" /></button>
                     </span>
                   )}
                   {currentRating && (
-                    <span className="inline-flex items-center gap-1 px-2.5 py-1 bg-blue-50 text-blue-600 text-xs font-bold rounded-lg border border-blue-100">
+                    <span className="inline-flex items-center gap-1 px-2.5 py-1 bg-[#123026]/5 text-[#123026] text-xs font-bold rounded-lg border border-[#123026]/10">
                       Rating: {currentRating}★+
                       <button onClick={() => removeChip("rating")}><X className="w-3 h-3 hover:scale-110" /></button>
                     </span>
                   )}
                   {currentAvailability && (
-                    <span className="inline-flex items-center gap-1 px-2.5 py-1 bg-blue-50 text-blue-600 text-xs font-bold rounded-lg border border-blue-100">
+                    <span className="inline-flex items-center gap-1 px-2.5 py-1 bg-[#123026]/5 text-[#123026] text-xs font-bold rounded-lg border border-[#123026]/10">
                       Availability: In Stock
                       <button onClick={() => removeChip("availability")}><X className="w-3 h-3 hover:scale-110" /></button>
                     </span>
@@ -640,10 +634,10 @@ function ProductsContent() {
                     <Link
                       href={`/product/${p.slug}`}
                       key={p.id}
-                      className="group flex flex-col bg-white border border-slate-100 rounded-2xl p-3 md:p-4 hover:shadow-lg transition-all duration-300 hover:-translate-y-0.5"
+                      className="product-card group flex flex-col p-3 md:p-4 hover:-translate-y-1 transition-all duration-300"
                     >
                       {/* Image Preview Box */}
-                      <div className="relative w-full aspect-square bg-slate-50 rounded-xl overflow-hidden mb-4">
+                      <div className="relative w-full aspect-square bg-white border border-[#eae8e4]/60 rounded-xl overflow-hidden mb-4">
                         <Image
                           src={p.image}
                           alt={p.name}
@@ -652,7 +646,7 @@ function ProductsContent() {
                           sizes="(max-width: 768px) 50vw, (max-width: 1200px) 30vw, 20vw"
                           loading="lazy"
                         />
-                        
+
                         {/* Discount Badge */}
                         {discount > 0 && (
                           <span className="absolute top-3 left-3 bg-red-500 text-white text-[10px] md:text-xs font-black px-2 py-1 rounded shadow-xs">
@@ -672,31 +666,31 @@ function ProductsContent() {
 
                       {/* Brand Label */}
                       {p.brand && (
-                        <span className="text-[10px] font-bold text-slate-400 uppercase tracking-wider block mb-0.5 truncate">
+                        <span className="text-[10px] font-bold text-[#6a7571] uppercase tracking-wider block mb-0.5 truncate">
                           {p.brand}
                         </span>
                       )}
 
                       {/* Title */}
-                      <h3 className="text-sm font-bold text-slate-800 leading-snug group-hover:text-blue-600 transition-colors line-clamp-2 min-h-[36px] mb-2">
+                      <h3 className="text-sm font-bold text-[#123026] font-serif leading-snug group-hover:text-[#b89d70] transition-colors line-clamp-2 min-h-[36px] mb-2">
                         {p.name}
                       </h3>
 
                       {/* Rating Banner */}
                       {p.rating > 0 && (
                         <div className="flex items-center gap-1 mb-2">
-                          <span className="text-[10px] font-bold text-white bg-emerald-600 rounded px-1.5 py-0.5 flex items-center gap-0.5">
-                            {p.rating.toFixed(1)} <Star className="w-2.5 h-2.5 fill-white text-white" />
+                          <span className="text-[10px] font-bold text-[#123026] bg-[#123026]/10 border border-[#123026]/20 rounded px-1.5 py-0.5 flex items-center gap-0.5">
+                            {p.rating.toFixed(1)} <Star className="w-2.5 h-2.5 fill-[#123026] text-[#123026]" />
                           </span>
-                          <span className="text-[10px] text-slate-400 font-semibold">({p.numReviews})</span>
+                          <span className="text-[10px] text-[#6a7571] font-semibold">({p.numReviews})</span>
                         </div>
                       )}
 
                       {/* Prices */}
                       <div className="flex items-baseline gap-2 mt-auto">
-                        <span className="text-base font-black text-slate-900">${p.price.toFixed(2)}</span>
+                        <span className="text-base font-black text-[#123026]">${p.price.toFixed(2)}</span>
                         {discount > 0 && (
-                          <span className="text-xs text-slate-400 line-through">${p.regularPrice.toFixed(2)}</span>
+                          <span className="text-xs text-[#6a7571]/60 line-through">${p.regularPrice.toFixed(2)}</span>
                         )}
                       </div>
 
@@ -710,8 +704,8 @@ function ProductsContent() {
                   );
                 })
               ) : (
-                <div className="col-span-full py-16 text-center bg-white border border-slate-100 rounded-2xl">
-                  <span className="text-slate-400 text-sm font-bold">No products found matching your active filters.</span>
+                <div className="col-span-full py-16 text-center glass-panel bg-white/70 border border-[#eae8e4]/60 rounded-2xl">
+                  <span className="text-[#6a7571] text-sm font-bold">No products found matching your active filters.</span>
                 </div>
               )}
             </div>
@@ -722,11 +716,10 @@ function ProductsContent() {
                 <button
                   onClick={() => updateURLParams({ page: currentPage - 1 })}
                   disabled={currentPage <= 1}
-                  className={`p-2 rounded-lg border border-slate-200 bg-white transition-all ${
-                    currentPage <= 1
-                      ? "text-slate-300 cursor-not-allowed"
-                      : "text-slate-600 hover:bg-slate-50 hover:border-slate-300"
-                  }`}
+                  className={`p-2 rounded-lg border border-[#eae8e4] bg-white/50 transition-all ${currentPage <= 1
+                    ? "text-slate-300 cursor-not-allowed"
+                    : "text-[#123026] hover:bg-[#123026]/5 hover:border-[#b89d70]/40"
+                    }`}
                 >
                   <ChevronLeft className="w-5 h-5" />
                 </button>
@@ -738,11 +731,10 @@ function ProductsContent() {
                       <button
                         key={pNum}
                         onClick={() => updateURLParams({ page: pNum })}
-                        className={`w-9 h-9 text-sm font-bold rounded-lg border transition-all ${
-                          isCurrent
-                            ? "bg-blue-600 border-blue-600 text-white shadow-sm"
-                            : "bg-white border-slate-200 text-slate-700 hover:bg-slate-50"
-                        }`}
+                        className={`w-9 h-9 text-sm font-bold rounded-lg border transition-all ${isCurrent
+                          ? "bg-[#123026] border-[#123026] text-white shadow-sm"
+                          : "bg-white/50 border-[#eae8e4] text-[#123026]/80 hover:bg-[#123026]/5"
+                          }`}
                       >
                         {pNum}
                       </button>
@@ -752,11 +744,10 @@ function ProductsContent() {
                 <button
                   onClick={() => updateURLParams({ page: currentPage + 1 })}
                   disabled={currentPage >= totalPages}
-                  className={`p-2 rounded-lg border border-slate-200 bg-white transition-all ${
-                    currentPage >= totalPages
-                      ? "text-slate-300 cursor-not-allowed"
-                      : "text-slate-600 hover:bg-slate-50 hover:border-slate-300"
-                  }`}
+                  className={`p-2 rounded-lg border border-[#eae8e4] bg-white/50 transition-all ${currentPage >= totalPages
+                    ? "text-slate-300 cursor-not-allowed"
+                    : "text-[#123026] hover:bg-[#123026]/5 hover:border-[#b89d70]/40"
+                    }`}
                 >
                   <ChevronRight className="w-5 h-5" />
                 </button>
@@ -773,20 +764,20 @@ function ProductsContent() {
           {/* Drawer Backdrop */}
           <div
             onClick={() => setShowMobileFilters(false)}
-            className="absolute inset-0 bg-slate-950/40 backdrop-blur-xs transition-opacity"
+            className="absolute inset-0 bg-[#123026]/30 backdrop-blur-xs transition-opacity"
           />
 
           {/* Sliding container sheet */}
-          <div className="relative w-full max-h-[85vh] bg-white rounded-t-2xl shadow-xl flex flex-col z-10 transition-transform">
-            
+          <div className="relative w-full max-h-[85vh] bg-background rounded-t-2xl shadow-2xl border-t border-[#eae8e4]/80 flex flex-col z-10 transition-transform">
+
             {/* Sheet Title */}
-            <div className="flex items-center justify-between p-4 border-b border-slate-100">
-              <span className="text-base font-extrabold text-slate-900 flex items-center gap-1.5">
-                <Filter className="w-4.5 h-4.5 text-blue-600" /> Filters
+            <div className="flex items-center justify-between p-4 border-b border-[#eae8e4]/60">
+              <span className="text-base font-extrabold text-[#123026] flex items-center gap-1.5 font-serif uppercase">
+                <Filter className="w-4.5 h-4.5 text-[#b89d70]" /> Filters
               </span>
               <button
                 onClick={() => setShowMobileFilters(false)}
-                className="p-1 rounded-full hover:bg-slate-50 text-slate-500 hover:text-slate-800"
+                className="p-1 rounded-full hover:bg-[#123026]/5 text-[#6a7571] hover:text-[#123026]"
               >
                 <X className="w-5 h-5" />
               </button>
@@ -794,16 +785,16 @@ function ProductsContent() {
 
             {/* Scrollable Filters list inside sheet */}
             <div className="flex-1 overflow-y-auto p-4 space-y-6">
-              
+
               {/* Availability Filter */}
               <div>
-                <span className="text-xs font-bold text-slate-400 uppercase tracking-wider block mb-3">Availability</span>
-                <label className="flex items-center gap-2 text-sm text-slate-700 font-semibold cursor-pointer">
+                <span className="text-xs font-bold text-[#6a7571] uppercase tracking-wider block mb-3">Availability</span>
+                <label className="flex items-center gap-2 text-sm text-[#123026] font-semibold cursor-pointer">
                   <input
                     type="checkbox"
                     checked={currentAvailability === "instock"}
                     onChange={(e) => updateURLParams({ availability: e.target.checked ? "instock" : "" })}
-                    className="rounded text-blue-600 focus:ring-blue-500 border-slate-300 w-4 h-4"
+                    className="rounded text-[#123026] focus:ring-[#123026]/20 border-[#eae8e4] w-4 h-4"
                   />
                   Exclude Out of Stock
                 </label>
@@ -812,15 +803,14 @@ function ProductsContent() {
               {/* Dynamic Categories */}
               {filterOptions.categories.length > 0 && (
                 <div>
-                  <span className="text-xs font-bold text-slate-400 uppercase tracking-wider block mb-3">Categories</span>
+                  <span className="text-xs font-bold text-[#6a7571] uppercase tracking-wider block mb-3">Categories</span>
                   <div className="flex flex-wrap gap-2">
                     <button
                       onClick={() => updateURLParams({ category: "" })}
-                      className={`text-xs px-3 py-1.5 rounded-full font-bold transition-all border ${
-                        currentCategory === ""
-                          ? "bg-blue-50 border-blue-300 text-blue-600"
-                          : "bg-white border-slate-200 text-slate-600"
-                      }`}
+                      className={`text-xs px-3 py-1.5 rounded-full font-bold transition-all border ${currentCategory === ""
+                        ? "bg-[#123026]/5 border-[#123026]/20 text-[#123026]"
+                        : "bg-white/50 border-[#eae8e4] text-[#123026]/80"
+                        }`}
                     >
                       All Categories
                     </button>
@@ -830,11 +820,10 @@ function ProductsContent() {
                         <button
                           key={cat.id}
                           onClick={() => updateURLParams({ category: cat.name })}
-                          className={`text-xs px-3 py-1.5 rounded-full font-bold transition-all border ${
-                            isSelected
-                              ? "bg-blue-50 border-blue-300 text-blue-600"
-                              : "bg-white border-slate-200 text-slate-600"
-                          }`}
+                          className={`text-xs px-3 py-1.5 rounded-full font-bold transition-all border ${isSelected
+                            ? "bg-[#123026]/5 border-[#123026]/20 text-[#123026]"
+                            : "bg-white/50 border-[#eae8e4] text-[#123026]/80"
+                            }`}
                         >
                           {cat.name}
                         </button>
@@ -847,7 +836,7 @@ function ProductsContent() {
               {/* Dynamic Tags */}
               {filterOptions.tags && filterOptions.tags.length > 0 && (
                 <div>
-                  <span className="text-xs font-bold text-slate-400 uppercase tracking-wider block mb-3">Tags</span>
+                  <span className="text-xs font-bold text-[#6a7571] uppercase tracking-wider block mb-3">Tags</span>
                   <div className="flex flex-wrap gap-2">
                     {filterOptions.tags.map((tag) => {
                       const isSelected = currentTags.some(t => t.toLowerCase() === tag.name.toLowerCase());
@@ -855,11 +844,10 @@ function ProductsContent() {
                         <button
                           key={tag.id}
                           onClick={() => handleTagToggle(tag.name)}
-                          className={`text-xs px-3 py-1.5 rounded-full font-bold transition-all border ${
-                            isSelected
-                              ? "bg-blue-50 border-blue-300 text-blue-600"
-                              : "bg-white border-slate-200 text-slate-600"
-                          }`}
+                          className={`text-xs px-3 py-1.5 rounded-full font-bold transition-all border ${isSelected
+                            ? "bg-[#123026]/5 border-[#123026]/20 text-[#123026]"
+                            : "bg-white/50 border-[#eae8e4] text-[#123026]/80"
+                            }`}
                         >
                           {tag.name}
                         </button>
@@ -872,16 +860,16 @@ function ProductsContent() {
               {/* Dynamic Brands */}
               {filterOptions.brands.length > 0 && (
                 <div>
-                  <span className="text-xs font-bold text-slate-400 uppercase tracking-wider block mb-3">Brands</span>
+                  <span className="text-xs font-bold text-[#6a7571] uppercase tracking-wider block mb-3">Brands</span>
                   {filterOptions.brands.length > 5 && (
                     <div className="relative mb-3">
-                      <Search className="w-3.5 h-3.5 text-slate-400 absolute left-2.5 top-1/2 -translate-y-1/2" />
+                      <Search className="w-3.5 h-3.5 text-[#6a7571]/60 absolute left-2.5 top-1/2 -translate-y-1/2" />
                       <input
                         type="text"
                         placeholder="Search brands..."
                         value={brandSearch}
                         onChange={(e) => setBrandSearch(e.target.value)}
-                        className="w-full pl-8 pr-3 py-1.5 border border-slate-200 rounded-md text-xs focus:outline-none"
+                        className="w-full pl-8 pr-3 py-1.5 border border-[#eae8e4] rounded-md text-xs focus:outline-none bg-white/50"
                       />
                     </div>
                   )}
@@ -892,11 +880,10 @@ function ProductsContent() {
                         <button
                           key={brand}
                           onClick={() => handleBrandToggle(brand)}
-                          className={`text-xs px-3 py-1.5 rounded-full font-bold transition-all border ${
-                            isChecked
-                              ? "bg-blue-50 border-blue-300 text-blue-600"
-                              : "bg-white border-slate-200 text-slate-600"
-                          }`}
+                          className={`text-xs px-3 py-1.5 rounded-full font-bold transition-all border ${isChecked
+                            ? "bg-[#123026]/5 border-[#123026]/20 text-[#123026]"
+                            : "bg-white/50 border-[#eae8e4] text-[#123026]/80"
+                            }`}
                         >
                           {brand}
                         </button>
@@ -909,7 +896,7 @@ function ProductsContent() {
               {/* Dynamic Colors */}
               {filterOptions.colors.length > 0 && (
                 <div>
-                  <span className="text-xs font-bold text-slate-400 uppercase tracking-wider block mb-3">Colors</span>
+                  <span className="text-xs font-bold text-[#6a7571] uppercase tracking-wider block mb-3">Colors</span>
                   <div className="flex flex-wrap gap-2.5">
                     {filterOptions.colors.map((color) => {
                       const isSelected = currentColors.includes(color);
@@ -917,11 +904,10 @@ function ProductsContent() {
                         <button
                           key={color}
                           onClick={() => handleColorToggle(color)}
-                          className={`w-8 h-8 rounded-full border-2 flex items-center justify-center transition-all ${
-                            isSelected
-                              ? "border-blue-600 scale-110 shadow-sm"
-                              : "border-transparent hover:scale-105"
-                          }`}
+                          className={`w-8 h-8 rounded-full border-2 flex items-center justify-center transition-all ${isSelected
+                            ? "border-[#123026] scale-110 shadow-sm"
+                            : "border-transparent hover:scale-105"
+                            }`}
                           title={color}
                           type="button"
                         >
@@ -935,14 +921,14 @@ function ProductsContent() {
 
               {/* Price inputs */}
               <div>
-                <span className="text-xs font-bold text-slate-400 uppercase tracking-wider block mb-3">Price Range</span>
+                <span className="text-xs font-bold text-[#6a7571] uppercase tracking-wider block mb-3">Price Range</span>
                 <div className="flex items-center gap-2">
                   <input
                     type="number"
                     placeholder="Min Price"
                     value={minPriceInput}
                     onChange={(e) => setMinPriceInput(e.target.value)}
-                    className="w-full px-2 py-1.5 border border-slate-200 rounded-md text-sm"
+                    className="w-full px-2 py-1.5 border border-[#eae8e4] rounded-md text-sm bg-white/50"
                   />
                   <span className="text-slate-400">-</span>
                   <input
@@ -950,24 +936,23 @@ function ProductsContent() {
                     placeholder="Max Price"
                     value={maxPriceInput}
                     onChange={(e) => setMaxPriceInput(e.target.value)}
-                    className="w-full px-2 py-1.5 border border-slate-200 rounded-md text-sm"
+                    className="w-full px-2 py-1.5 border border-[#eae8e4] rounded-md text-sm bg-white/50"
                   />
                 </div>
               </div>
 
               {/* Rating selection */}
               <div>
-                <span className="text-xs font-bold text-slate-400 uppercase tracking-wider block mb-3">Ratings</span>
+                <span className="text-xs font-bold text-[#6a7571] uppercase tracking-wider block mb-3">Ratings</span>
                 <div className="flex gap-2">
                   {[4, 3].map((stars) => (
                     <button
                       key={stars}
                       onClick={() => updateURLParams({ rating: currentRating === String(stars) ? "" : String(stars) })}
-                      className={`flex-1 text-center text-xs py-2 border rounded-lg font-bold transition-all ${
-                        currentRating === String(stars)
-                          ? "bg-blue-50 border-blue-300 text-blue-600"
-                          : "text-slate-600 border-slate-200"
-                      }`}
+                      className={`flex-1 text-center text-xs py-2 border rounded-lg font-bold transition-all ${currentRating === String(stars)
+                        ? "bg-[#123026]/5 border-[#123026]/20 text-[#123026]"
+                        : "text-[#123026]/80 border-[#eae8e4] bg-white/50"
+                        }`}
                     >
                       {stars}★ & Above
                     </button>
@@ -978,22 +963,20 @@ function ProductsContent() {
             </div>
 
             {/* Bottom Actions inside mobile sheet */}
-            <div className="p-4 border-t border-slate-100 grid grid-cols-2 gap-3 bg-slate-50 rounded-b-2xl">
+            <div className="p-4 border-t border-[#eae8e4]/60 grid grid-cols-2 gap-3 bg-[#f4f2ee]/50 rounded-b-2xl">
               <button
                 onClick={clearAllFilters}
-                className="w-full py-3 border border-slate-200 bg-white rounded-xl text-sm font-bold text-slate-700 hover:bg-slate-50"
+                className="w-full py-3 border border-[#eae8e4] bg-white/50 rounded-xl text-sm font-bold text-[#123026] hover:bg-[#123026]/5"
               >
                 Clear All
               </button>
               <button
                 onClick={() => setShowMobileFilters(false)}
-                className="w-full py-3 bg-blue-600 text-white rounded-xl text-sm font-bold hover:bg-blue-700"
+                className="w-full py-3 bg-[#123026] text-[#b89d70] rounded-xl text-sm font-bold hover:bg-[#1b4335]"
               >
                 Apply Filters
               </button>
-            </div>
-
-          </div>
+            </div></div>
         </div>
       )}
     </div>
