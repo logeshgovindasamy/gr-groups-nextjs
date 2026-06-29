@@ -7,6 +7,23 @@ import {
   saveProduct as saveLegacyProduct
 } from "./product.service";
 
+/** 10% discount applied to all prices for logged-in (non-admin) members. */
+const MEMBER_DISCOUNT_MULTIPLIER = 0.90;
+
+/**
+ * Applies the member discount to a numeric price.
+ * Returns the original value unchanged when the price is falsy or not a
+ * finite number, so products without a set price are never corrupted.
+ *
+ * @param {number} price     - Original price.
+ * @param {boolean} isMember - Whether member pricing should be applied.
+ * @returns {number} Discounted (or original) price, rounded to 2 d.p.
+ */
+function applyMemberDiscount(price, isMember) {
+  if (!isMember || !price || !isFinite(price)) return price;
+  return Math.round(price * MEMBER_DISCOUNT_MULTIPLIER * 100) / 100;
+}
+
 // Helper to map local product images to beautiful Unsplash fallbacks or proxy WordPress URLs
 function resolveImage(img) {
   if (!img) return 'https://images.unsplash.com/photo-1523275335684-37898b6baf30?q=80&w=600&auto=format&fit=crop';
@@ -71,12 +88,18 @@ function resolveRelativeImages(images, origin) {
 }
 
 /**
- * Maps WooCommerce REST API Product object to the Next.js frontend schema
+ * Maps WooCommerce REST API Product object to the Next.js frontend schema.
+ *
+ * @param {Object}  p        - Raw WooCommerce product object.
+ * @param {string}  locale   - Active locale (e.g. 'en', 'ta').
+ * @param {boolean} isMember - When true, a 10% member discount is applied to
+ *                             the displayed price and regularPrice. The
+ *                             database value is never mutated.
  */
-export function mapWooCommerceProduct(p, locale) {
+export function mapWooCommerceProduct(p, locale, isMember = false) {
   if (!p) return null;
   
-  const price = Number(p.price || p.regular_price || 0);
+  const rawPrice = Number(p.price || p.regular_price || 0);
   const rawImages = (p.images || []).map(img => img.src);
   const resolvedImages = rawImages.map(resolveImage);
   const resolvedImage = resolvedImages.length > 0 ? resolvedImages[0] : 'https://images.unsplash.com/photo-1523275335684-37898b6baf30?q=80&w=600&auto=format&fit=crop';
@@ -112,8 +135,19 @@ export function mapWooCommerceProduct(p, locale) {
   const colorAttr = p.attributes?.find(attr => attr.name?.toLowerCase() === 'color' || attr.slug?.toLowerCase() === 'pa_color');
   const colors = colorAttr ? colorAttr.options || [] : [];
 
-  const regPrice = Number(p.regular_price || price);
-  const discount = (regPrice > price) ? Math.round(((regPrice - price) / regPrice) * 100) : 0;
+  const rawRegPrice = Number(p.regular_price || rawPrice);
+
+  // `price`       → the amount the customer pays (discounted for members).
+  // `regularPrice`→ always the original/undiscounted price, shown struck-through
+  //                 so members can see what they're saving.
+  const price    = applyMemberDiscount(rawPrice, isMember);
+  const regPrice = rawRegPrice; // never discount this — it is the reference price
+
+  // Show the member saving % in the discount badge.  For products that are
+  // already on WooCommerce sale the badge shows the combined saving.
+  const discount = (regPrice > price)
+    ? Math.round(((regPrice - price) / regPrice) * 100)
+    : 0;
 
   return {
     id: String(p.id),
@@ -124,6 +158,8 @@ export function mapWooCommerceProduct(p, locale) {
     price: price,
     regularPrice: regPrice,
     discount: discount,
+    isMemberPrice: isMember,          // lets the UI show a "Member price" badge
+
     brand: brand,
     colors: colors,
     category: categoryName,
@@ -148,9 +184,13 @@ export function mapWooCommerceProduct(p, locale) {
 }
 
 /**
- * Fetch products from WooCommerce with server-side filtering, sorting, and pagination
+ * Fetch products from WooCommerce with server-side filtering, sorting, and pagination.
+ *
+ * @param {Object}  params   - Filter / pagination params.
+ * @param {string}  locale   - Active locale.
+ * @param {boolean} isMember - When true, member pricing (10% off) is applied.
  */
-export async function getProducts(params = {}, locale = 'en') {
+export async function getProducts(params = {}, locale = 'en', isMember = false) {
   const activeLocale = locale || params.lang || params.locale || 'en';
   const {
     category,
@@ -180,7 +220,7 @@ export async function getProducts(params = {}, locale = 'en') {
     }
 
     const data = await woocommerce.get("products", wcParams);
-    wooProducts = (data || []).map(p => mapWooCommerceProduct(p, activeLocale));
+    wooProducts = (data || []).map(p => mapWooCommerceProduct(p, activeLocale, isMember));
   } catch (error) {
     console.error("[productService.getProducts] WooCommerce fetch failed:", error.message);
   }

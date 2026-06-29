@@ -51,13 +51,13 @@ function SearchResults() {
 
   const handleAddToCart = (product) => {
     const imageUrl = product.images && product.images.length > 0 ? (product.images[0].src || product.images[0]) : product.image || '';
-    addToCart({ 
-      id: product.id, 
-      name: product.name || product.title, 
-      price: parseFloat(product.price || 0), 
+    addToCart({
+      id: product.id,
+      name: product.name || product.title,
+      price: parseFloat(product.price || 0),
       image: imageUrl,
       stock: product.stock_quantity ?? product.stock,
-      qty: 1 
+      qty: 1
     });
     toast.success(`${product.name || product.title} added to cart`);
   };
@@ -110,10 +110,10 @@ function SearchResults() {
                   <div className="relative aspect-square bg-[#f4f2ee] rounded-xl overflow-hidden mb-4 border border-[#eae8e4]/50 p-2 flex items-center justify-center">
                     <div className="relative w-full h-full flex items-center justify-center">
                       {imageUrl ? (
-                        <img 
-                          src={imageUrl} 
-                          alt={product.name || product.title} 
-                          className="w-full h-full object-contain mix-blend-multiply transition-transform duration-500 group-hover:scale-105" 
+                        <img
+                          src={imageUrl}
+                          alt={product.name || product.title}
+                          className="w-full h-full object-contain mix-blend-multiply transition-transform duration-500 group-hover:scale-105"
                         />
                       ) : (
                         <div className="w-full h-full flex items-center justify-center text-4xl font-serif text-[#b89d70] bg-[#123026]/5 rounded-xl">
@@ -142,7 +142,25 @@ function SearchResults() {
                       <h4 className="font-semibold font-serif text-[#123026] text-base group-hover:text-[#b89d70] transition-colors line-clamp-1">{product.name || product.title}</h4>
                     </Link>
                     <div className="flex justify-between items-center mt-2.5 pt-2.5 border-t border-[#eae8e4]">
-                      <span className="font-bold text-[#123026]">${parseFloat(product.price || 0).toFixed(2)}</span>
+                      <div className="flex flex-col gap-0.5">
+                        <div className="flex items-baseline gap-2">
+                          {/* Discounted / member price */}
+                          <span className={`font-bold ${product.isMemberPrice ? 'text-emerald-700' : 'text-[#123026]'}`}>
+                            ${parseFloat(product.price || 0).toFixed(2)}
+                          </span>
+                          {/* Original price struck-through — only when a discount exists */}
+                          {product.regularPrice && Number(product.regularPrice) > Number(product.price) && (
+                            <span className="text-xs text-[#6a7571]/60 line-through">
+                              ${Number(product.regularPrice).toFixed(2)}
+                            </span>
+                          )}
+                        </div>
+                        {/* {product.isMemberPrice && Number(product.regularPrice) > Number(product.price) && (
+                          <span className="text-[10px] font-bold text-emerald-700 tracking-wide">
+                            Member Price · {Math.round(((Number(product.regularPrice) - Number(product.price)) / Number(product.regularPrice)) * 100)}% off
+                          </span>
+                        )} */}
+                      </div>
                       {product.average_rating ? (
                         <div className="flex items-center text-[#b89d70] text-xs gap-1 font-bold">
                           <Star size={12} fill="currentColor" />
