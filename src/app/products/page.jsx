@@ -637,7 +637,7 @@ function ProductsContent() {
                       className="product-card group flex flex-col p-3 md:p-4 hover:-translate-y-1 transition-all duration-300"
                     >
                       {/* Image Preview Box */}
-                      <div className="relative w-full aspect-square bg-white border border-[#eae8e4]/60 rounded-xl overflow-hidden mb-4">
+                      <div className="relative w-full aspect-square bg-white border border-[#eae8e4]/60 rounded-xl overflow-hidden mb-2">
                         <Image
                           src={p.image}
                           alt={p.name}
@@ -647,12 +647,7 @@ function ProductsContent() {
                           loading="lazy"
                         />
 
-                        {/* Discount Badge */}
-                        {discount > 0 && (
-                          <span className="absolute top-3 left-3 bg-red-500 text-white text-[10px] md:text-xs font-black px-2 py-1 rounded shadow-xs">
-                            {discount}% OFF
-                          </span>
-                        )}
+
 
                         {/* Out of Stock Ribbon */}
                         {isOutOfStock && (
@@ -672,7 +667,7 @@ function ProductsContent() {
                       )}
 
                       {/* Title */}
-                      <h3 className="text-sm font-bold text-[#123026] font-serif leading-snug group-hover:text-[#b89d70] transition-colors line-clamp-2 min-h-[36px] mb-2">
+                      <h3 className="text-sm font-bold text-[#123026] font-serif leading-snug group-hover:text-[#b89d70] transition-colors line-clamp-2 mb-1">
                         {p.name}
                       </h3>
 
@@ -687,12 +682,29 @@ function ProductsContent() {
                       )}
 
                       {/* Prices */}
-                      <div className="flex items-baseline gap-2 mt-auto">
-                        <span className="text-base font-black text-[#123026]">${p.price.toFixed(2)}</span>
-                        {discount > 0 && (
-                          <span className="text-xs text-[#6a7571]/60 line-through">${p.regularPrice.toFixed(2)}</span>
+                      <div className="flex flex-col gap-0.5">
+                        <div className="flex items-baseline gap-2">
+                          {/* New / discounted price */}
+                          <span className={`text-base font-black ${p.isMemberPrice ? "text-emerald-700" : "text-[#123026]"}`}>
+                            ${p.price.toFixed(2)}
+                          </span>
+
+                          {/* Original price struck-through (shown when there is any discount) */}
+                          {discount > 0 && (
+                            <span className="text-xs text-[#6a7571]/60 line-through">
+                              ${p.regularPrice.toFixed(2)}
+                            </span>
+                          )}
+                        </div>
+
+                        {/* "Member Price" label */}
+                        {p.isMemberPrice && discount > 0 && (
+                          <span className="text-[10px] font-bold text-emerald-700 tracking-wide">
+                            Member Price · {discount}% off
+                          </span>
                         )}
                       </div>
+
 
                       {/* Stock levels message */}
                       {!isOutOfStock && p.stock <= 5 && (
