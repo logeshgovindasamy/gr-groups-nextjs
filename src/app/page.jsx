@@ -320,7 +320,25 @@ export default function HomePage() {
                   <h4 className="font-medium text-lg">{product.name || product.title}</h4>
                   <p className="text-textMuted text-sm mb-2">{product.category || "Uncategorized"}</p>
                   <div className="flex justify-between items-center">
-                    <span className="font-bold text-lg text-textLight">${Number(product.price || 0).toFixed(2)}</span>
+                    <div className="flex flex-col gap-0.5">
+                      <div className="flex items-baseline gap-2">
+                        {/* Discounted / member price */}
+                        <span className={`font-bold text-lg ${product.isMemberPrice ? 'text-emerald-700' : 'text-textLight'}`}>
+                          ${Number(product.price || 0).toFixed(2)}
+                        </span>
+                        {/* Original price struck-through — only when a discount exists */}
+                        {product.regularPrice && Number(product.regularPrice) > Number(product.price) && (
+                          <span className="text-xs text-[#6a7571]/60 line-through">
+                            ${Number(product.regularPrice).toFixed(2)}
+                          </span>
+                        )}
+                      </div>
+                      {product.isMemberPrice && Number(product.regularPrice) > Number(product.price) && (
+                        <span className="text-[10px] font-bold text-emerald-700 tracking-wide">
+                          Member Price · {Math.round(((Number(product.regularPrice) - Number(product.price)) / Number(product.regularPrice)) * 100)}% off
+                        </span>
+                      )}
+                    </div>
                     <div className="flex items-center text-yellow-400 text-sm gap-1">
                       <Star size={14} fill="currentColor" />
                       <span className="text-textLight">{product.rating || product.ratings || 0}</span>
