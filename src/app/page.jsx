@@ -33,10 +33,10 @@ export default function HomePage() {
 
   // Feature cards — static branding text
   const features = [
-    { icon: Award,      title: 'Premium Quality',  desc: 'Handpicked products of uncompromising quality.' },
-    { icon: Gem,        title: 'Timeless Design',  desc: 'Elegance that transcends trends and time.' },
-    { icon: Shield,     title: 'Secure Shopping',  desc: 'Advanced security for a worry-free experience.' },
-    { icon: Headphones, title: 'Dedicated Support',desc: 'We\'re here to help, whenever you need us.' },
+    { icon: Award, title: 'Premium Quality', desc: 'Handpicked products of uncompromising quality.' },
+    { icon: Gem, title: 'Timeless Design', desc: 'Elegance that transcends trends and time.' },
+    { icon: Shield, title: 'Secure Shopping', desc: 'Advanced security for a worry-free experience.' },
+    { icon: Headphones, title: 'Dedicated Support', desc: 'We\'re here to help, whenever you need us.' },
   ];
 
   // Fetch WordPress page content for hero
@@ -77,32 +77,32 @@ export default function HomePage() {
 
   // Hero text: WordPress content takes priority, falls back to English defaults
   const hero = {
-    badge:    heroContent?.acf?.hero_badge    || 'Next Generation Shopping',
-    title:    heroContent?.acf?.hero_title    || 'Redefining Luxury Aesthetics',
+    badge: heroContent?.acf?.hero_badge || 'Next Generation Shopping',
+    title: heroContent?.acf?.hero_title || 'Redefining Luxury Aesthetics',
     subtitle: heroContent?.acf?.hero_subtitle || 'Experience the future of e-commerce. Premium products tailored for the modern individual with impeccable taste.',
     exploreBtn: heroContent?.acf?.explore_btn || 'Explore Collection',
-    trendsBtn:  heroContent?.acf?.trends_btn  || 'View Trends',
-    luxuryTag:  heroContent?.acf?.luxury_tag  || 'Luxury E-Commerce',
-    eleganceTag:heroContent?.acf?.elegance_tag|| 'Redefining Elegance',
+    trendsBtn: heroContent?.acf?.trends_btn || 'View Trends',
+    luxuryTag: heroContent?.acf?.luxury_tag || 'Luxury E-Commerce',
+    eleganceTag: heroContent?.acf?.elegance_tag || 'Redefining Elegance',
     trendingTitle: heroContent?.acf?.trending_title || 'Trending Now',
-    trendingSub:   heroContent?.acf?.trending_sub   || 'The most coveted items of the season',
-    viewAll:    heroContent?.acf?.view_all    || 'View All',
-    quickAdd:   heroContent?.acf?.quick_add   || 'Quick Add',
-    ctaTitle:   heroContent?.acf?.cta_title   || 'Join the Elite',
-    ctaSub:     heroContent?.acf?.cta_sub     || 'Create an account to unlock exclusive deals, early access to drops, and personalized recommendations.',
-    ctaBtn:     heroContent?.acf?.cta_btn     || 'Get Started',
-    newBadge:   heroContent?.acf?.new_badge   || 'New',
+    trendingSub: heroContent?.acf?.trending_sub || 'The most coveted items of the season',
+    viewAll: heroContent?.acf?.view_all || 'View All',
+    quickAdd: heroContent?.acf?.quick_add || 'Quick Add',
+    ctaTitle: heroContent?.acf?.cta_title || 'Join the Elite',
+    ctaSub: heroContent?.acf?.cta_sub || 'Create an account to unlock exclusive deals, early access to drops, and personalized recommendations.',
+    ctaBtn: heroContent?.acf?.cta_btn || 'Get Started',
+    newBadge: heroContent?.acf?.new_badge || 'New',
   };
 
   const addToCartHandler = (product) => {
     const imageUrl = product.images && product.images.length > 0 ? product.images[0] : product.image || '';
-    addToCart({ 
-      id: product.id, 
-      name: product.name || product.title, 
-      price: product.price, 
+    addToCart({
+      id: product.id,
+      name: product.name || product.title,
+      price: product.price,
       image: imageUrl,
       stock: product.stock,
-      qty: 1 
+      qty: 1
     });
     toast.success(`${product.name || product.title} added to cart`);
   };
@@ -128,7 +128,7 @@ export default function HomePage() {
             <div className="flex items-center gap-2 px-3 py-1.5 rounded-full bg-[#f4f2ee] border border-[#e5dec9] text-[#a4865d] text-[10px] md:text-xs font-bold tracking-widest uppercase w-fit">
               <span className="text-[#b89d70] text-sm leading-none mt-[-2px]">✦</span> {hero.badge}
             </div>
-            
+
             <h1 className="text-4xl sm:text-5xl md:text-7xl font-light tracking-tight leading-[1.1] text-[#123026] font-serif">
               Redefining <br className="hidden md:block" />
               <span className="italic font-normal text-[#123026]/95">Luxury</span> Aesthetics
@@ -136,11 +136,11 @@ export default function HomePage() {
 
             {/* Gold Horizontal Line */}
             <div className="h-[2px] w-24 bg-[#b89d70] my-2" />
-            
+
             <p className="text-sm md:text-base text-[#6a7571] max-w-md leading-relaxed font-sans font-light">
               {hero.subtitle}
             </p>
-            
+
             <div className="flex items-center gap-4 mt-4">
               <Link href="/categories" className="group btn-primary flex items-center gap-2 px-8 py-3.5 rounded-full text-xs font-bold uppercase tracking-wider transition-all duration-300">
                 {hero.exploreBtn} <ArrowRight size={14} className="transition-transform group-hover:translate-x-1" />
@@ -286,15 +286,15 @@ export default function HomePage() {
                     </div>
                   )}
                   {product.images && product.images.length > 0 ? (
-                    <img 
-                      src={product.images[0]} 
-                      alt={product.name || product.title} 
+                    <img
+                      src={product.images[0]}
+                      alt={product.name || product.title}
                       className="w-full h-full object-cover transition-transform duration-500 group-hover:scale-105"
                     />
                   ) : product.image ? (
-                    <img 
-                      src={product.image} 
-                      alt={product.name || product.title} 
+                    <img
+                      src={product.image}
+                      alt={product.name || product.title}
                       className="w-full h-full object-cover transition-transform duration-500 group-hover:scale-105"
                     />
                   ) : (

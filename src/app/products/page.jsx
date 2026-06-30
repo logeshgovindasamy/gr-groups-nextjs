@@ -44,9 +44,12 @@ function ProductsContent() {
   const currentPage = Number(searchParams.get("page") || "1");
 
   // Selected Brands, Colors & Tags parsed from URL comma-separated values
-  const currentBrands = searchParams.get("brand") ? searchParams.get("brand").split(",") : [];
-  const currentColors = searchParams.get("color") ? searchParams.get("color").split(",") : [];
-  const currentTags = searchParams.get("tag") ? searchParams.get("tag").split(",") : [];
+  const rawBrand = searchParams.get("brand");
+  const rawColor = searchParams.get("color");
+  const rawTag = searchParams.get("tag");
+  const currentBrands = (rawBrand && typeof rawBrand === "string") ? rawBrand.split(",").filter(Boolean) : [];
+  const currentColors = (rawColor && typeof rawColor === "string") ? rawColor.split(",").filter(Boolean) : [];
+  const currentTags = (rawTag && typeof rawTag === "string") ? rawTag.split(",").filter(Boolean) : [];
 
   // Temporary inputs for pricing (to debounce updates)
   const [minPriceInput, setMinPriceInput] = useState(currentMinPrice);
@@ -220,6 +223,7 @@ function ProductsContent() {
   };
 
   const getColorClass = (colorName) => {
+    if (typeof colorName !== "string" || !colorName) return "bg-slate-200";
     const map = {
       black: "bg-black",
       white: "bg-white border border-slate-300",
@@ -238,9 +242,9 @@ function ProductsContent() {
     return map[colorName.toLowerCase()] || "bg-slate-200";
   };
 
-  const filteredBrandsList = filterOptions.brands.filter((brand) =>
-    brand.toLowerCase().includes(brandSearch.toLowerCase())
-  );
+  const filteredBrandsList = filterOptions.brands
+    .filter((brand) => typeof brand === "string" && brand)
+    .filter((brand) => brand.toLowerCase().includes(brandSearch.toLowerCase()));
 
   const activeFiltersCount =
     currentBrands.length +
@@ -351,7 +355,7 @@ function ProductsContent() {
                   >
                     All Categories
                   </button>
-                  {filterOptions.categories.map((cat) => {
+                  {filterOptions.categories.filter(cat => cat && typeof cat.name === "string").map((cat) => {
                     const isSelected = currentCategory.toLowerCase() === cat.name.toLowerCase();
                     return (
                       <button
@@ -375,8 +379,8 @@ function ProductsContent() {
               <div className="mb-6">
                 <span className="text-xs font-bold text-[#6a7571] uppercase tracking-wider block mb-3">Tags</span>
                 <div className="space-y-2 max-h-40 overflow-y-auto pr-1">
-                  {filterOptions.tags.map((tag) => {
-                    const isSelected = currentTags.some(t => t.toLowerCase() === tag.name.toLowerCase());
+                  {filterOptions.tags.filter(tag => tag && typeof tag.name === "string").map((tag) => {
+                    const isSelected = currentTags.some(t => typeof t === "string" && t.toLowerCase() === tag.name.toLowerCase());
                     return (
                       <button
                         key={tag.id}
@@ -438,7 +442,7 @@ function ProductsContent() {
               <div className="mb-6">
                 <span className="text-xs font-bold text-[#6a7571] uppercase tracking-wider block mb-3">Colors</span>
                 <div className="flex flex-wrap gap-2">
-                  {filterOptions.colors.map((color) => {
+                  {filterOptions.colors.filter(color => typeof color === "string" && color).map((color) => {
                     const isSelected = currentColors.includes(color);
                     return (
                       <button
@@ -624,23 +628,31 @@ function ProductsContent() {
                 renderSkeletons()
               ) : products.length > 0 ? (
                 products.map((p) => {
-                  const discount = p.regularPrice > p.price
-                    ? Math.round(((p.regularPrice - p.price) / p.regularPrice) * 100)
+                  const safePrice = typeof p.price === "number" && isFinite(p.price) ? p.price : 0;
+                  const safeRegPrice = typeof p.regularPrice === "number" && isFinite(p.regularPrice) ? p.regularPrice : safePrice;
+                  const safeStock = typeof p.stock === "number" ? p.stock : 0;
+                  const safeRating = typeof p.rating === "number" && isFinite(p.rating) ? p.rating : 0;
+                  const safeName = typeof p.name === "string" ? p.name : (typeof p.title === "string" ? p.title : "Product");
+                  const safeImage = typeof p.image === "string" && p.image ? p.image : "https://images.unsplash.com/photo-1523275335684-37898b6baf30?q=80&w=600&auto=format&fit=crop";
+                  const safeHref = `/product/${typeof p.slug === "string" && p.slug ? p.slug : String(p.id || "")}`;
+
+                  const discount = safeRegPrice > safePrice
+                    ? Math.round(((safeRegPrice - safePrice) / safeRegPrice) * 100)
                     : 0;
 
-                  const isOutOfStock = p.stockStatus === "outofstock" || p.stock <= 0;
+                  const isOutOfStock = p.stockStatus === "outofstock" || safeStock <= 0;
 
                   return (
                     <Link
-                      href={`/product/${p.slug}`}
-                      key={p.id}
+                      href={safeHref}
+                      key={p.id || safeHref}
                       className="product-card group flex flex-col p-3 md:p-4 hover:-translate-y-1 transition-all duration-300"
                     >
                       {/* Image Preview Box */}
                       <div className="relative w-full aspect-square bg-white border border-[#eae8e4]/60 rounded-xl overflow-hidden mb-2">
                         <Image
-                          src={p.image}
-                          alt={p.name}
+                          src={safeImage}
+                          alt={safeName}
                           fill
                           className="object-contain p-3 mix-blend-multiply group-hover:scale-105 transition-transform duration-300"
                           sizes="(max-width: 768px) 50vw, (max-width: 1200px) 30vw, 20vw"
@@ -660,7 +672,7 @@ function ProductsContent() {
                       </div>
 
                       {/* Brand Label */}
-                      {p.brand && (
+                      {typeof p.brand === "string" && p.brand && (
                         <span className="text-[10px] font-bold text-[#6a7571] uppercase tracking-wider block mb-0.5 truncate">
                           {p.brand}
                         </span>
@@ -668,16 +680,16 @@ function ProductsContent() {
 
                       {/* Title */}
                       <h3 className="text-sm font-bold text-[#123026] font-serif leading-snug group-hover:text-[#b89d70] transition-colors line-clamp-2 mb-1">
-                        {p.name}
+                        {safeName}
                       </h3>
 
                       {/* Rating Banner */}
-                      {p.rating > 0 && (
+                      {safeRating > 0 && (
                         <div className="flex items-center gap-1 mb-2">
                           <span className="text-[10px] font-bold text-[#123026] bg-[#123026]/10 border border-[#123026]/20 rounded px-1.5 py-0.5 flex items-center gap-0.5">
-                            {p.rating.toFixed(1)} <Star className="w-2.5 h-2.5 fill-[#123026] text-[#123026]" />
+                            {safeRating.toFixed(1)} <Star className="w-2.5 h-2.5 fill-[#123026] text-[#123026]" />
                           </span>
-                          <span className="text-[10px] text-[#6a7571] font-semibold">({p.numReviews})</span>
+                          <span className="text-[10px] text-[#6a7571] font-semibold">({p.numReviews ?? 0})</span>
                         </div>
                       )}
 
@@ -686,13 +698,13 @@ function ProductsContent() {
                         <div className="flex items-baseline gap-2">
                           {/* New / discounted price */}
                           <span className={`text-base font-black ${p.isMemberPrice ? "text-emerald-700" : "text-[#123026]"}`}>
-                            ${p.price.toFixed(2)}
+                            ${safePrice.toFixed(2)}
                           </span>
 
                           {/* Original price struck-through (shown when there is any discount) */}
                           {discount > 0 && (
                             <span className="text-xs text-[#6a7571]/60 line-through">
-                              ${p.regularPrice.toFixed(2)}
+                              ${safeRegPrice.toFixed(2)}
                             </span>
                           )}
                         </div>
@@ -707,9 +719,9 @@ function ProductsContent() {
 
 
                       {/* Stock levels message */}
-                      {!isOutOfStock && p.stock <= 5 && (
+                      {!isOutOfStock && safeStock > 0 && safeStock <= 5 && (
                         <span className="text-[10px] font-bold text-amber-600 mt-2 block">
-                          Only {p.stock} left in stock!
+                          Only {safeStock} left in stock!
                         </span>
                       )}
                     </Link>
@@ -826,7 +838,7 @@ function ProductsContent() {
                     >
                       All Categories
                     </button>
-                    {filterOptions.categories.map((cat) => {
+                    {filterOptions.categories.filter(cat => cat && typeof cat.name === "string").map((cat) => {
                       const isSelected = currentCategory.toLowerCase() === cat.name.toLowerCase();
                       return (
                         <button
@@ -850,8 +862,8 @@ function ProductsContent() {
                 <div>
                   <span className="text-xs font-bold text-[#6a7571] uppercase tracking-wider block mb-3">Tags</span>
                   <div className="flex flex-wrap gap-2">
-                    {filterOptions.tags.map((tag) => {
-                      const isSelected = currentTags.some(t => t.toLowerCase() === tag.name.toLowerCase());
+                    {filterOptions.tags.filter(tag => tag && typeof tag.name === "string").map((tag) => {
+                      const isSelected = currentTags.some(t => typeof t === "string" && t.toLowerCase() === tag.name.toLowerCase());
                       return (
                         <button
                           key={tag.id}
@@ -910,7 +922,7 @@ function ProductsContent() {
                 <div>
                   <span className="text-xs font-bold text-[#6a7571] uppercase tracking-wider block mb-3">Colors</span>
                   <div className="flex flex-wrap gap-2.5">
-                    {filterOptions.colors.map((color) => {
+                    {filterOptions.colors.filter(color => typeof color === "string" && color).map((color) => {
                       const isSelected = currentColors.includes(color);
                       return (
                         <button

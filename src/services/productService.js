@@ -62,6 +62,10 @@ function resolveImage(img) {
       }
     }
   }
+  // Final safety: if img is not a string at this point, return the fallback
+  if (typeof img !== 'string') {
+    return 'https://images.unsplash.com/photo-1523275335684-37898b6baf30?q=80&w=600&auto=format&fit=crop';
+  }
   return img;
 }
 
@@ -100,7 +104,7 @@ export function mapWooCommerceProduct(p, locale, isMember = false) {
   if (!p) return null;
   
   const rawPrice = Number(p.price || p.regular_price || 0);
-  const rawImages = (p.images || []).map(img => img.src);
+  const rawImages = (p.images || []).map(img => (img && typeof img.src === 'string' ? img.src : null)).filter(Boolean);
   const resolvedImages = rawImages.map(resolveImage);
   const resolvedImage = resolvedImages.length > 0 ? resolvedImages[0] : 'https://images.unsplash.com/photo-1523275335684-37898b6baf30?q=80&w=600&auto=format&fit=crop';
   const categoryName = p.categories && p.categories.length > 0 ? p.categories[0].name : "General";
@@ -151,7 +155,7 @@ export function mapWooCommerceProduct(p, locale, isMember = false) {
 
   return {
     id: String(p.id),
-    slug: p.slug || "",
+    slug: p.slug || String(p.id) || "",
     name: name,
     title: name,
     description: plainDescription,
